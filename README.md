@@ -1,6 +1,6 @@
 Verity
 
-A source reliability algorithm for e-commerce product data.
+A source reliability system for e-commerce product data.
 
 # The Problem
 
