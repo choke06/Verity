@@ -16,11 +16,11 @@ Model sources and claims as a bipartite graph. Treat reliability scoring as an i
 
 # Stack
 
-Python (crawler + scraper)
-SQLite (data storage)
-275+ products scraped across multiple source types (retailers, manufacturers, government sites)
+- Python (crawler + scraper)
+- SQLite (data storage)
+- 275+ products scraped across multiple source types (retailers, manufacturers, government sites)
 
 # Status
 
-Data pipeline running. Algorithm design in progress. Looking for a collaborator strong in probability theory / Bayesian methods.
+Data pipeline running. Algorithm design in progress.
 
