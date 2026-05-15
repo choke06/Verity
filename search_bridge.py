@@ -11,6 +11,26 @@ BINARY_EXTENSIONS = {
     ".mp4", ".mp3"
 }
 
+RETAILER_SITES = (
+    "site:amazon.com OR "
+    "site:walmart.com OR "
+    "site:target.com OR "
+    "site:bestbuy.com OR "
+    "site:homedepot.com OR "
+    "site:lowes.com OR "
+    "site:costco.com OR "
+    "site:macys.com OR "
+    "site:kohls.com OR "
+    "site:bjs.com OR "
+    "site:samsclub.com OR "
+    "site:bhphotovideo.com OR "
+    "site:newegg.com OR "
+    "site:microcenter.com OR "
+    "site:ajmadison.com OR "
+    "site:pcrichard.com OR "
+    "site:wayfair.com"
+)
+
 def has_binary_extension(url: str) -> bool:
     path = urlparse(url).path.lower()
     return any(path.endswith(ext) for ext in BINARY_EXTENSIONS)
@@ -50,6 +70,125 @@ def extract_domain(url):
         return domain
     except:
         return None
+
+
+def normalize_gtin(gtin):
+    if not gtin:
+        return None
+
+    gtin = str(gtin)
+
+    digits = re.sub(r"\D", "", gtin)
+
+    if not digits:
+        return None
+
+    digits = digits.lstrip("0")
+
+    return digits
+
+
+def normalize_model(model):
+    if not model:
+        return None
+
+    model = str(model).upper()
+
+    model = re.sub(r"[^A-Z0-9]", "", model)
+
+    return model
+
+
+def longest_common_substring(a, b):
+    if not a or not b:
+        return 0
+
+    m = [[0] * (1 + len(b)) for _ in range(1 + len(a))]
+
+    longest = 0
+
+    for i in range(1, len(a) + 1):
+        for j in range(1, len(b) + 1):
+            if a[i - 1] == b[j - 1]:
+                m[i][j] = m[i - 1][j - 1] + 1
+                longest = max(longest, m[i][j])
+
+    return longest
+
+
+def gtin_overlap_score(seed_gtin, candidate_gtin):
+    seed_gtin = normalize_gtin(seed_gtin)
+    candidate_gtin = normalize_gtin(candidate_gtin)
+
+    if not seed_gtin or not candidate_gtin:
+        return 0
+
+    if seed_gtin == candidate_gtin:
+        return 1.0
+
+    overlap = longest_common_substring(seed_gtin, candidate_gtin)
+
+    score = overlap / max(len(seed_gtin), len(candidate_gtin))
+
+    return score
+
+
+def model_overlap_score(seed_model, candidate_model):
+    seed_model = normalize_model(seed_model)
+    candidate_model = normalize_model(candidate_model)
+
+    if not seed_model or not candidate_model:
+        return 0
+
+    if seed_model == candidate_model:
+        return 1.0
+
+    overlap = longest_common_substring(seed_model, candidate_model)
+
+    score = overlap / max(len(seed_model), len(candidate_model))
+
+    return score
+
+
+def identity_matches(seed_product, candidate_product):
+    seed_gtin = seed_product.get("gtin")
+    candidate_gtin = candidate_product.get("gtin")
+
+    seed_model = seed_product.get("model")
+    candidate_model = candidate_product.get("model")
+
+    print("\n[IDENTITY CHECK]")
+    print(f"SEED GTIN: {seed_gtin}")
+    print(f"CANDIDATE GTIN: {candidate_gtin}")
+    print(f"SEED MODEL: {seed_model}")
+    print(f"CANDIDATE MODEL: {candidate_model}")
+
+    if seed_gtin and candidate_gtin:
+        gtin_score = gtin_overlap_score(seed_gtin, candidate_gtin)
+
+        print(f"[GTIN SCORE] {gtin_score}")
+
+        if gtin_score >= 0.85:
+            print("[IDENTITY PASS] GTIN match")
+            return True
+
+        print("[IDENTITY FAIL] GTIN mismatch")
+        return False
+
+    if seed_model and candidate_model:
+        model_score = model_overlap_score(seed_model, candidate_model)
+
+        print(f"[MODEL SCORE] {model_score}")
+
+        if model_score >= 0.70:
+            print("[IDENTITY PASS] MODEL match")
+            return True
+
+        print("[IDENTITY FAIL] MODEL mismatch")
+        return False
+
+    print("[IDENTITY UNKNOWN] Missing comparable identifiers")
+    return True
 
 
 def get_crawl_priority(conn, url):
@@ -129,33 +268,49 @@ def build_queries(gtin=None, model=None, brand=None, title=None, conn=None, cate
     print(f"  Title: {title}")
     print(f"  Category: {category}")
 
+    clean_title = None
+
+    if title:
+        clean_title = re.sub(r"[^\w\s\-]", " ", title)
+        clean_title = re.sub(r"\s+", " ", clean_title).strip()
+ 
     if gtin:
         queries.append((
             "serper",
-            f'"{gtin}" (site:amazon.com OR site:walmart.com OR site:target.com OR site:bestbuy.com OR site:homedepot.com OR site:lowes.com)',
+            f'"{gtin}" ({RETAILER_SITES})',
             "gtin"
-        ))
+        )) 
 
+    if clean_title:
         queries.append((
             "serper",
-            f'"{gtin}" (site:bhphotovideo.com OR site:newegg.com OR site:microcenter.com)',
-            "gtin"
+            f'"{clean_title}" ({RETAILER_SITES})',
+            "title"
         ))
 
-    if model and brand:
+    if model:
+        queries.append((
+            "serper",
+            f'{model} ({RETAILER_SITES})',
+            "model"
+        ))
+
+    if model:
         domain = get_mfr_domain(conn, brand) if conn else None
         print(f"[BUILD QUERIES] Manufacturer domain candidate: {domain}")
 
         if domain:
-            if gtin:
-                queries.append(("serper", f'site:{domain} "{gtin}"', "brand_gtin"))
+                queries.append(("serper", f'site:{domain} {model} specs', "model"))
 
-            if model:
-                queries.append(("serper", f'site:{domain} "{model}"', "brand_model"))
+        if domain and clean_title:
+            queries.append((
+                "serper",
+                f'site:{domain} "{clean_title}"',
+                "title"
+            ))
 
-        if gtin and model:
-            queries.append(("serper", f'site:energystar.gov/productfinder "{gtin}"', "model"))
-            queries.append(("serper", f'site:energystar.gov/productfinder "{model}"', "model"))
+        if model:
+            queries.append(("serper", f'site:energystar.gov/productfinder {model}', "model"))
 
         if category == "laptops":
             queries.append(("serper", f'site:fccid.io "{model}"', "model"))
@@ -262,6 +417,7 @@ def run_search_bridge(conn, product):
 
     gtin_queries = []
     model_queries = []
+    title_queries = []
     brand_gtin = []
     brand_model = []
     brand_sku = []
@@ -272,6 +428,8 @@ def run_search_bridge(conn, product):
             gtin_queries.append((provider, query))
         elif qtype == "model":
             model_queries.append((provider, query))
+        elif qtype == "title":
+            title_queries.append((provider, query))
         elif qtype == "brand_gtin":
             brand_gtin.append((provider, query))
         elif qtype == "brand_model":
@@ -281,7 +439,7 @@ def run_search_bridge(conn, product):
         else:
             other_queries.append((provider, query))
 
-    print(f"[QUERY BUCKETS] gtin={len(gtin_queries)} model={len(model_queries)} brand_gtin={len(brand_gtin)} brand_model={len(brand_model)} brand_sku={len(brand_sku)} other={len(other_queries)}")
+    print(f"[QUERY BUCKETS] gtin={len(gtin_queries)} model={len(model_queries)} title={len(title_queries)} brand_gtin={len(brand_gtin)} brand_model={len(brand_model)} brand_sku={len(brand_sku)} other={len(other_queries)}")
 
     all_results = []
 
@@ -308,6 +466,7 @@ def run_search_bridge(conn, product):
 
     all_results.extend(run_batch_with_provider(gtin_queries))
     all_results.extend(run_batch_with_provider(model_queries))
+    all_results.extend(run_batch_with_provider(title_queries))
 
     brand_results = []
 
@@ -329,17 +488,35 @@ def run_search_bridge(conn, product):
     print(f"\n[RAW RESULTS COUNT]: {len(all_results)}")
 
     seen_urls = set()
-    seen_domains = set()
+    domain_counts = {}
+
+    MAX_URLS_PER_DOMAIN = 3
+
+    seed_url = product.get("source_url")
 
     for url, provider in all_results:
+
         if url in seen_urls:
-            print(f"[FILTER SKIP] Duplicate URL: {url}")
+            continue
+
+        if seed_url and url == seed_url:
+            print(f"[FILTER SKIP] Seed URL: {url}")
+            continue
+
+        already_crawled = conn.execute(
+            "SELECT 1 FROM crawled_pages WHERE url=? LIMIT 1",
+            (url,)
+        ).fetchone()
+
+        if already_crawled:
+            print(f"[FILTER SKIP] Already crawled URL: {url}")
             continue
 
         if not is_crawlable(url):
             continue
 
         domain = extract_domain(url)
+
         if not domain:
             print(f"[FILTER SKIP] No domain: {url}")
             continue
@@ -348,16 +525,24 @@ def run_search_bridge(conn, product):
             print(f"[FILTER SKIP] Existing domain already covered: {domain} | {url}")
             continue
 
-        if domain in seen_domains:
-            print(f"[FILTER SKIP] Domain already added in this batch: {domain} | {url}")
+        current_count = domain_counts.get(domain, 0)
+
+        if current_count >= MAX_URLS_PER_DOMAIN:
+            print(f"[FILTER SKIP] Domain limit reached: {domain} | {url}")
             continue
 
+        domain_counts[domain] = current_count + 1
+
         seen_urls.add(url)
-        seen_domains.add(domain)
 
         priority = get_crawl_priority(conn, url)
 
-        print(f"[FILTER PASS] {url} | provider={provider} | priority={priority}")
+        print(
+            f"[FILTER PASS] {url} | "
+            f"provider={provider} | "
+            f"priority={priority} | "
+            f"domain_count={domain_counts[domain]}"
+        )
 
         save_url(
             conn,
