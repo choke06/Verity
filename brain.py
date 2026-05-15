@@ -13,9 +13,9 @@ PILLARS = {
     "laptops": ["cpu_model", "ram_gb", "storage_gb", "weight_lbs", "screen_brightness_nits", "display_resolution", "battery_wh"],
     "headphones": ["driver_type", "frequency_response_hz", "battery_life_hrs", "impedance_ohms", "noise_cancellation"],
     "portable_power": ["capacity_mah", "wattage", "output_ports", "charging_speed_w"],
-    "mini_fridges": ["capacity_cu_ft", "refrigerator_capacity_cu_ft", "freezer_capacity_cu_ft", "noise_db", "energy_star_certified"],
+    "mini_fridges": ["total_capacity", "refrigerator_capacity", "freezer_capacity", "noise_db", "energy_star_certified"],
     "air_fryers": ["capacity_qt", "basket_material", "wattage", "max_temperature_f"],
-    "espresso": ["pump_pressure_bar", "power_w", "heating_system", "water_tank_capacity", "bean_hopper_capacity"]
+    "espresso": ["pump_pressure_bar", "power_w", "heating_system", "water_tank_capacity"]
 }
 
 CATEGORY_STANDARDS = {
@@ -91,8 +91,8 @@ UNIT_SYNONYMS = {
     "l": ["l", "liter", "liters"],
     "g": ["g", "gram", "grams"],
     "kg": ["kg", "kilogram", "kilograms"],
-    "bar": ["bar"],
-    "cu_ft": ["cu ft", "cu_ft", "cubic ft", "cubic feet", "ft3"],
+    "bar": ["bar", "bars"],
+    "cu_ft": ["cu ft", "cu_ft", "cubic ft", "cubic-ft", "cubic feet", "ft3"],
     "v": ["v", "volt", "volts"],
     "a": ["a", "amp", "amps", "ampere", "amperes"],
     "f": ["f", "fahrenheit", "degrees fahrenheit", "degree fahrenheit"],
@@ -192,6 +192,130 @@ OUTPUT FORMAT:
     except Exception:
         return {}
 
+def map_keys_to_pillars(keys, category):
+
+    pillars = PILLARS.get(category, [])
+
+    if not keys or not pillars:
+        return {
+            normalize_key(k): normalize_key(k)
+            for k in keys
+        }
+
+    try:
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            response_format={"type": "json_object"},
+            messages=[
+                {
+                    "role": "system",
+                    "content": f"""
+You are a semantic ontology mapper.
+
+TASK:
+Map retailer specification LABEL-VALUE PAIRS to a canonical pillar key ONLY when the measured object is explicitly clear.
+
+A generic label like:
+- capacity
+- pressure
+- power
+- size
+- dimensions
+
+is NOT enough by itself.
+
+You must see explicit contextual evidence in either:
+- the label
+- or the value
+
+before mapping to a subsystem-specific pillar.
+If ambiguity exists, preserve the original generic meaning.
+If semantic meaning is ambiguous, preserve the original normalized key instead of forcing a pillar mapping.
+Do NOT infer hidden meaning from generic labels.
+Preserve ambiguity when context is insufficient.
+
+CATEGORY:
+{category}
+
+ALLOWED CANONICAL KEYS:
+{pillars}
+
+RULES:
+- Canonical pillar keys may contain naming suffixes related to units,
+  schema conventions, or representation format.
+- These suffixes do NOT change the underlying semantic meaning.
+- Determine equivalence based on the underlying physical quantity and concept,
+  not literal token overlap.
+- A retailer field may omit unit/type suffixes while still matching
+  a more specific canonical pillar key.
+- Preserve ambiguity ONLY when the underlying measured concept itself is unclear.
+
+Examples:
+- battery life hours != battery watt hours
+- dimensions != weight
+- storage capacity != RAM
+- processor speed != processor model
+- processor model == cpu_model
+- screen size != resolution
+
+- If the retailer label measures a DIFFERENT physical quantity,
+  you MUST preserve the original normalized key.
+
+- Never map based on shared topic words alone.
+- Preserve meaning exactly
+- If no pillar matches, keep the normalized original key
+- Return ONLY valid JSON
+- Keys must be snake_case
+
+OUTPUT:
+{{
+  "retailer_key": "canonical_key"
+}}
+"""
+                },
+                {
+                    "role": "user",
+                    "content": json.dumps(keys)
+                }
+            ],
+            temperature=0
+        )
+
+        raw = json.loads(response.choices[0].message.content)
+        print("\n=== SEMANTIC MAP RAW ===")
+        print(json.dumps(raw, indent=2))
+
+        cleaned = {}
+
+        for item in keys:
+
+            if isinstance(item, dict):
+                original_key = item["normalized_key"]
+            else:
+                original_key = normalize_key(item)
+
+            mapped = raw.get(original_key, original_key)
+
+            nk = normalize_key(original_key)
+            nv = normalize_key(mapped)
+ 
+            if nv not in [normalize_key(p) for p in pillars]:
+                nv = nk
+
+            cleaned[nk] = nv
+
+        return cleaned
+
+    except Exception as e:
+
+        print("[PILLAR MAP ERROR]", e)
+
+        return {
+            normalize_key(k): normalize_key(k)
+            for k in keys
+        }
+
 def normalize_unit_llm(unit_word, field_name=None):
     try:
         context = f"\nField: {field_name}" if field_name else ""
@@ -252,6 +376,52 @@ Unit: {unit_word}
     except:
         return "text"
 
+def infer_unit(label):
+
+    try:
+
+        res = client.chat.completions.create(
+            model="gpt-4o-mini",
+            response_format={"type": "json_object"},
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"""
+You infer the most likely engineering measurement unit implied by a specification label.
+
+RULES:
+- Return ONLY a standard abbreviated unit
+- Examples of valid outputs: w, v, a, oz, lb, in, mm, bar, qt, cu_ft
+- If the label does not clearly imply a measurable quantity, return "text"
+- Do not explain
+- Do not return full words
+- Output valid JSON only
+
+OUTPUT FORMAT:
+{{
+  "unit": "..."
+}}
+
+LABEL:
+{label}
+"""
+                }
+            ],
+            temperature=0
+        )
+
+        data = json.loads(res.choices[0].message.content)
+
+        unit = data.get("unit", "text").strip().lower()
+
+        if unit in UNIT_SYNONYMS:
+            return unit
+
+        return "text"
+
+    except:
+        return "text"
+
 def normalize_unit(u):
     if not u:
         return None
@@ -278,23 +448,37 @@ def run_llm_extraction(markdown: str, category: str, existing_data: dict = None)
     f"Category: {category}\n\n"
 
     f"TASK:\n"
-    f"1. Extract the FULL technical profile of the product from ALL sections of the page.\n"
+    f"1. Extract only technical specifications explicitly supported by the source text.\n"
     f"2. Prioritize the base product specs for the model itself, not example configurations, test setups, or summary tables.\n"
-    f"3. Extract these pillar keys whenever present: {PILLARS.get(category, [])}\n"
-    f"4. Also extract ALL other valid technical specs as additional snake_case fields.\n"
-    f"5. Look through EVERY relevant section, including but not limited to core hardware components, performance characteristics, physical dimensions, materials, power specifications, connectivity, and certifications.\n\n"
+    f"3. Also extract ALL other valid technical specs as additional snake_case fields.\n"
+    f"4. Look through EVERY relevant section, including but not limited to core hardware components, performance characteristics, physical dimensions, materials, power specifications, connectivity, and certifications.\n\n"
 
     "IMPORTANT RULES:\n"
     "- Do NOT stop after finding a neat summary block or table.\n"
     "- Do NOT return only 'configuration tested' or benchmark/acoustic tables if broader model specs are present.\n"
     "- Prefer the main/base specs for the product over optional upgrades, configurable maximums, or test configurations.\n"
-    "- INTERNAL ARCHITECTURE: Extract internal mechanisms, heating systems, control logic, and underlying system types (e.g., controllers, heating elements, compressors, sensors). These are core hardware specs, not marketing.\n"
-    "- COMPONENT SPECIFICITY: If a component (e.g., pump, motor, portafilter, compressor) has a size, material, type, or architecture, capture the FULL detail.\n"
-    "- COMPONENT GRANULARITY: Extract specific internal technologies, heating methods, control systems, and underlying mechanisms. If a component has a defined type, architecture, or size (e.g., mm, bar, wattage, system type), it MUST be extracted as its own field.\n"
     "- If both base and max/configurable values are present, keep the base/current spec in the main field and use a separate field for max/configurable only if clearly useful.\n"
     "- Multi-line sections must be grouped correctly.\n"
     "- Certifications that describe durability, efficiency, or compliance count as technical claims.\n"
-    "- Model number and UPC/EAN count as technical claims when present.\n"
+    "- IDENTITY EXTRACTION (CRITICAL):\n"
+    "- Extract ONLY the following identifiers:\n"
+    "- model\n"
+    "- gtin (includes UPC, EAN, GTIN)\n"
+    "- These identifiers are NOT optional and must ALWAYS be extracted when present.\n"
+    "- They may appear in titles, bullets, or product information sections.\n"
+    "- Always scan the FULL document for them.\n"
+    "- Treat identifiers as FIRST-CLASS fields.\n"
+    "- Output using these exact keys:\n"
+    "  - model\n"
+    "  - gtin\n"
+    "- MAPPING RULES:\n"
+    "  - UPC → gtin\n"
+    "  - EAN → gtin\n"
+    "  - GTIN → gtin\n"
+    "- FORMAT REQUIREMENTS:\n"
+    "  - gtin must be a 12–14 digit numeric code\n"
+    "  - model must be the exact model number as written\n"
+    "- Return identifiers even if no other specs are found.\n"
     "- SECTION CONTEXT: If a value appears under a section header (e.g., 'Storage', 'Display'), treat the header as the label.\n"
     "- REASSEMBLE LABELED DATA: If a value appears next to a label (e.g., 'Weight: X', 'Height: X'), extract it correctly.\n"
     "- CAPTURE RAW CONTEXT: Always include the exact snippet where the value appears as raw_quote.\n"
@@ -315,12 +499,23 @@ def run_llm_extraction(markdown: str, category: str, existing_data: dict = None)
     "- Marketing copy, sales copy, and generic promotional language\n"
     "- Accessibility feature lists, bundled apps, and in-the-box lists unless they contain true hardware specs\n\n"
 
-    f"PILLAR MAPPING:\n"
-    f"- Map to these keys when possible: {PILLARS.get(category, [])}\n"
-    "- Example: 'brightness' -> 'screen_brightness_nits'\n"
-    "- Example: 'battery capacity' -> 'battery_wh'\n\n"
-
     "STRICT:\n"
+    "- MISSING DATA RULE:\n"
+    "- If a specification is not explicitly present in the source text, OMIT THE FIELD ENTIRELY.\n"
+    "- Do NOT output placeholders such as:\n"
+    "- 'Not specified'\n"
+    "- 'Unknown'\n"
+    "- 'N/A'\n"
+    "- 'None'\n"
+    "- 'Unavailable'\n"
+    "- inferred negatives\n"
+    "- estimated values\n"
+    "- A missing specification must be omitted from the JSON completely.\n\n"
+    "- SCHEMA VALIDITY:\n"
+    "- Any field whose value is missing, unknown, unavailable, null-like, inferred absent, or unspecified is INVALID and MUST NOT appear in the JSON.\n"
+    "- A placeholder value is considered schema-invalid output.\n"
+    "- If a specification is absent, the entire field must be omitted completely.\n"
+    "- Never represent missingness as a claim.\n\n"
     "- EVIDENCE LOCK: Only extract values explicitly present in the provided text.\n"
     "- VERACITY: If a spec is not directly stated, DO NOT infer or use prior knowledge.\n"
     "- NO GUESSING: Do not fill missing fields with typical or expected values.\n"
@@ -328,7 +523,6 @@ def run_llm_extraction(markdown: str, category: str, existing_data: dict = None)
     "- UNIT PRESERVATION: If a value includes a unit (e.g., '67 oz', '1/2 lb', '22.09 lbs'), you MUST include the unit in the value string.\n"
     "- NEVER strip units from numeric values.\n"
     "- The value field must contain the FULL original measurement (number + unit).\n"
-    "- COMPONENT RECOGNITION: Treat capitalized technical terms (e.g., 'Thermocoil', 'PID Control', 'Neural Engine') as real hardware components. Extract them as separate snake_case fields.\n"
     "- EMPTY STATE: If no valid technical specs are found, return an empty JSON object {}.\n"
     "- raw_quote must reflect the closest label-value pairing, even if reconstructed from adjacent lines.\n"
     "- QUOTE FALLBACK: If no explicit label exists, you may use the closest bullet point or line as the raw_quote.\n"
@@ -493,6 +687,17 @@ RULES:
 - Preserve original label text EXACTLY
 - Extract numeric value if clearly present
 - Extract unit if clearly present
+- If the value is numeric but the unit is omitted,
+  infer the most likely engineering unit from the specification label
+- Only infer units when the label clearly implies a standard measurable unit
+
+Examples:
+- Wattage -> watts
+- Voltage -> volts
+- Amperage -> amps
+- Pressure -> bar
+- Capacity -> ounces
+
 - If not numeric → value_numeric = null and unit = "text"
 - DO NOT drop anything
 
@@ -593,6 +798,7 @@ def normalize_specs(raw_claims, category):
         display = data.get("display")
         value = data.get("value")
         unit = data.get("unit")
+        source_label = data.get("source_label", "")
 
         print("PARSED VALUE:", value)
         print("PARSED UNIT:", unit)
@@ -623,6 +829,7 @@ def normalize_specs(raw_claims, category):
             base_value = value
 
         math_value = base_value
+        final_unit = unit
 
         if isinstance(base_value, dict):
             if target_unit and unit != target_unit:
@@ -634,6 +841,7 @@ def normalize_specs(raw_claims, category):
                         "min": round(base_value.get("min") * factor, 2),
                         "max": round(base_value.get("max") * factor, 2)
                     }
+                    final_unit = target_unit
 
         elif isinstance(base_value, (int, float)):
             if target_unit and unit != target_unit:
@@ -642,17 +850,23 @@ def normalize_specs(raw_claims, category):
 
                 if factor:
                     math_value = round(base_value * factor, 2)
+                    final_unit = target_unit
 
         print("FINAL MATH:", math_value)
         print("DISPLAY:", display)
 
-        final_unit = unit
+        if not final_unit:
+            final_unit = unit
+
+        context_text = f"{source_label} {display}".lower()
 
         if (not unit or unit == "text") and target_unit:
-            if isinstance(math_value, (int, float)) and display:
-                display_lower = display.lower()
+            if isinstance(math_value, (int, float)):
 
-                if any(u in display_lower for u in UNIT_SYNONYMS.get(target_unit, [])):
+                if any(
+                    u in context_text
+                    for u in UNIT_SYNONYMS.get(target_unit, [])
+                ):
                     final_unit = target_unit
 
         normalized.append((
@@ -698,110 +912,293 @@ def process_claims(claims):
 
     return [(k, v) for k, v in results.items()]
 
-def merge_similar_keys(new_key, existing_keys, threshold=90):
-    new_key = new_key.lower().strip()
+def merge_similar_keys(new_key, existing_keys, category=None, threshold=96):
 
-    if new_key in existing_keys:
+    new_key = normalize_key(new_key)
+
+    candidate_keys = set(existing_keys)
+
+    if category in PILLARS:
+        candidate_keys.update(
+            [normalize_key(x) for x in PILLARS[category]]
+        )
+
+    if new_key in candidate_keys:
         return new_key
 
-    best_match = None
-    best_score = 0
+    compressed_new = new_key.replace("_", "")
 
-    for ek in existing_keys:
-        score = fuzz.token_set_ratio(new_key, ek)
-        if score > best_score:
-            best_score = score
-            best_match = ek
+    for ek in candidate_keys:
 
-    if best_score >= threshold:
-        return best_match
+        ek_norm = normalize_key(ek)
 
-    for ek in existing_keys:
-        if new_key.replace("_", "") == ek.replace("_", ""):
-            return ek
+        if ek_norm == new_key:
+            return ek_norm
+
+        if ek_norm.replace("_", "") == compressed_new:
+            return ek_norm
+
+        score = fuzz.ratio(new_key, ek_norm)
+
+        if score >= threshold:
+            print(f"[KEY MERGE] {new_key} -> {ek_norm} ({score})")
+            return ek_norm
 
     return new_key
 
-def map_to_pillars(raw_key, category, existing_keys):
-    raw = normalize_key(raw_key)
-
-    pillars = PILLARS.get(category, [])
-
-    best_match = None
-    best_score = 0
-
-    for p in pillars:
-        score = fuzz.token_set_ratio(raw, p)
-        if score > best_score:
-            best_score = score
-            best_match = p
-
-    if best_score >= 80:
-        return best_match
-
-    return raw
-
-def process_product(product_json, markdown, category, skip_llm=False, structured_input=None):
+def process_product(
+    product_json,
+    markdown,
+    category,
+    skip_llm=False,
+    structured_input=None,
+    heuristic_mode=False
+):
 
     claims = []
     raw_keys = []
 
+    structured_mode = bool(structured_input)
+
     existing_keys = get_existing_attributes_for_category(category)
+
+    existing_normalized = [
+        normalize_key(x["attribute"])
+        for x in existing_keys
+        if x.get("attribute")
+    ]
+
     if structured_input:
-        raw_structured_specs = {normalize_key(k): v for k, v in structured_input}
-        for k in raw_structured_specs.keys():
-            raw_keys.append(k)
-        translated_structured = translate_specs(raw_structured_specs, category) if raw_structured_specs else {}
 
-        for k, v in raw_structured_specs.items():
-            translated_item = translated_structured.get(normalize_key(k), {})
- 
-            val = translated_item.get("value")
+        raw_structured_specs = {}
 
-            if isinstance(val, (int, float)):
-                math_val = val
-            elif isinstance(val, str):
-                try:
-                    math_val = float(val)
-                except:
-                    math_val = None
+        for item in structured_input:
+
+            if isinstance(item, dict):
+                label = item.get("source_label")
+                value = item.get("source_value")
             else:
-                math_val = None
+                label, value = item
 
-            unit_raw = translated_item.get("unit")
-            unit_val = get_standard_unit(unit_raw, k)
+            if not label or value is None:
+                continue
 
-            mapped_key = map_to_pillars(k, category, existing_keys)
+            raw_structured_specs[normalize_key(label)] = {
+                "display": str(value).strip(),
+                "source_label": label
+            }
+
+        mapping_inputs = []
+
+        for k, payload in raw_structured_specs.items():
+            mapping_inputs.append({
+                "normalized_key": normalize_key(payload["source_label"]),
+                "source_label": payload["source_label"],
+                "value": payload["display"]
+            })
+
+        semantic_map = map_keys_to_pillars(
+            mapping_inputs,
+            category
+        )
+
+        for k, payload in raw_structured_specs.items():
+
+            raw_keys.append(k)
+
+            source_lookup_key = normalize_key(payload["source_label"])
+
+            normalized_key = semantic_map.get(
+                source_lookup_key,
+                normalize_key(k)
+            )
+            print(f"[SEMANTIC MAP] {k} -> {normalized_key}")
+
+            if normalized_key in PILLARS.get(category, []):
+                final_key = normalized_key
+            else:
+                final_key = merge_similar_keys(
+                    normalized_key,
+                    existing_normalized,
+                    category=category
+                )
+
+            display = payload["display"]
+
+            math_val = None
+            unit_val = "text"
+
+            measurement_source = f"{payload['source_label']} {display}"
+
+            measurement_match = None
+
+            if heuristic_mode or structured_mode:
+
+                measurement_match = re.search(
+                    r"(-?(?:\d*\.\d+|\d+))\s*(?:\(|\[)?([a-zA-Z%]+)(?:\)|\])?",
+                    measurement_source
+                )
+
+                if not measurement_match:
+
+                    label_unit_match = re.search(
+                        r"\(([^()]+)\)",
+                       payload["source_label"]
+                    )
+
+                    if label_unit_match:
+
+                        candidate_unit = label_unit_match.group(1)
+
+                        number_match = re.search(
+                            r"-?(?:\d*\.\d+|\d+)",
+                            display
+                        )
+
+                        if number_match:
+
+                            candidate_number = number_match.group(0)
+    
+                            measurement_match = (
+                                candidate_number,
+                                candidate_unit
+                            )
+
+            if measurement_match:
+
+                if isinstance(measurement_match, tuple):
+                    candidate_number, candidate_unit = measurement_match
+                else:
+                    candidate_number = measurement_match.group(1)
+                    candidate_unit = measurement_match.group(2)
+
+                standardized = get_standard_unit(candidate_unit, final_key)
+
+                if standardized == "text":
+                    standardized = None
+
+                if standardized:
+                    try:
+                        math_val = float(candidate_number)
+                        unit_val = standardized
+                    except:
+                        pass
+
+            if math_val is None:
+
+                number_match = re.search(
+                    r"-?(?:\d*\.\d+|\d+)",
+                    display
+                )
+
+                target_unit = CATEGORY_STANDARDS.get(category, {}).get(final_key)
+
+                if number_match and target_unit:
+
+                    try:
+                        math_val = float(number_match.group(0))
+                        unit_val = target_unit
+                    except:
+                        pass
+
+                elif number_match:
+
+                    inferred_unit = infer_unit(
+                        payload["source_label"]
+                    )
+
+                    if inferred_unit and inferred_unit != "text":
+
+                        try:
+                            math_val = float(number_match.group(0))
+                            unit_val = inferred_unit
+                        except:
+                            pass
 
             claims.append((
-                mapped_key,
+                final_key,
                 {
-                    "display": translated_item.get("display") or v,
+                    "display": display,
                     "math": math_val,
-                    "unit": unit_val
+                    "unit": unit_val,
+                    "source_label": payload["source_label"]
                 }
             ))
 
     if product_json:
         mapped_claims = map_structured_specs(product_json, category)
   
-        for k, data in mapped_claims:
-            raw_keys.append(k)
-            claims.append((k, data))
+        mapping_inputs = []
 
-    if not skip_llm and markdown:
+        for k, data in mapped_claims:
+
+            mapping_inputs.append({
+                "normalized_key": normalize_key(k),
+                "source_label": k,
+                "value": data.get("display")
+            })
+ 
+        semantic_map = map_keys_to_pillars(
+            mapping_inputs,
+            category
+        )
+
+        for k, data in mapped_claims:
+
+            source_lookup_key = normalize_key(k)
+
+            normalized_key = semantic_map.get(
+                source_lookup_key,
+                normalize_key(k)
+            )
+
+            if normalized_key in PILLARS.get(category, []):
+                final_key = normalized_key
+            else:
+                final_key = merge_similar_keys(
+                    normalized_key,
+                    existing_normalized,
+                    category=category
+                )
+
+            raw_keys.append(final_key)
+    
+            claims.append((final_key, data))
+
+    if not skip_llm and markdown and not structured_mode:
         llm_output = run_llm_extraction(markdown, category=category, existing_data=None)
 
-        flat_llm_specs = {}
+        filtered_llm_specs = {}
 
         if isinstance(llm_output, dict):
             for key, data in llm_output.items():
-                if isinstance(data, dict):
-                    value = data.get("value")
-                    if value:
-                        flat_llm_specs[key] = value
 
-        translated_llm = translate_specs(flat_llm_specs, category) if flat_llm_specs else {}
+                if not isinstance(data, dict):
+                    continue
+
+                value = data.get("value")
+
+                if not value:
+                    continue
+
+                value_text = str(value).strip().lower()
+
+                if any(x in value_text for x in [
+                    "not specified",
+                    "unknown",
+                    "n/a",
+                    "unavailable",
+                    "not available",
+                    "none"
+                ]):
+                    continue
+
+                filtered_llm_specs[key] = value
+
+        translated_llm = (
+            translate_specs(filtered_llm_specs, category)
+            if filtered_llm_specs else {}
+        )
 
         if isinstance(llm_output, dict):
             for key, data in llm_output.items():
@@ -812,12 +1209,42 @@ def process_product(product_json, markdown, category, skip_llm=False, structured
                 if not value:
                     continue
 
+                value_text = str(value).strip().lower()
+
+                if any(x in value_text for x in [
+                    "not specified",
+                    "unknown",
+                    "n/a",
+                    "unavailable",
+                    "not available",
+                    "none"
+                ]): 
+                    continue
+
                 normalized_key = normalize_key(key)
+
+                semantic_map = map_keys_to_pillars(
+                    [{
+                        "normalized_key": normalized_key,
+                        "source_label": key,
+                        "value": value
+                    }],
+                    category
+                )
+
+                normalized_key = semantic_map.get(
+                    normalized_key,
+                    normalized_key
+                )
 
                 if normalized_key == key and "_" in key:
                     final_key = normalized_key
                 else:
-                    final_key = map_to_pillars(key, category, existing_keys)
+                    final_key = merge_similar_keys(
+                        normalized_key,
+                        existing_normalized,
+                        category=category
+                    )
 
                 translated_item = (
                     translated_llm.get(key)
@@ -858,20 +1285,19 @@ def process_product(product_json, markdown, category, skip_llm=False, structured
 
     print("TOTAL CLAIMS:", len(claims))
 
-    cleaned_keys = [normalize_key(k) for k in raw_keys]
-    key_map = normalize_keys(list(dict.fromkeys(cleaned_keys)))
-
-    normalized_claims = []
+    final = []
 
     for attr, data in claims:
-        lookup = attr
-        if lookup not in key_map:
-            lookup = normalize_key(attr)
 
-        new_key = key_map.get(lookup, normalize_key(attr))
-        normalized_claims.append((new_key, data))
+        normalized_key = normalize_key(attr)
 
-    final = normalized_claims
+        canonical_key = merge_similar_keys(
+            normalized_key,
+            existing_normalized,
+            category=category
+        )
+
+        final.append((canonical_key, data))
 
     raw_for_normalization = []
 
