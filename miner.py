@@ -905,33 +905,62 @@ async def run_miner(url, category):
  
     status = status_row["status"] if status_row else "pending"
 
-    existing_page = conn.execute("""
-        SELECT p.*
-        FROM crawled_pages cp
-        JOIN raw_claims rc ON rc.page_id = cp.id
-        LEFT JOIN products p
-            ON p.gtin = rc.product_id
-            OR p.model = rc.product_id
-        WHERE cp.url=?
+    page_row = conn.execute("""
+        SELECT id
+        FROM crawled_pages
+        WHERE url=?
+        ORDER BY id DESC
         LIMIT 1
     """, (url,)).fetchone()
+
+    page_id = page_row["id"] if page_row else None
+
+    linked_product_id = None
+
+    if page_id:
+        linked_claim = conn.execute("""
+            SELECT product_id
+            FROM raw_claims
+            WHERE page_id=?
+              AND product_id IS NOT NULL
+              AND product_id != ''
+            LIMIT 1
+        """, (page_id,)).fetchone()
+
+        if linked_claim:
+            linked_product_id = linked_claim["product_id"]
+
+    linked_product = None
+
+    if linked_product_id:
+        linked_product = conn.execute("""
+            SELECT *
+            FROM products
+            WHERE
+                gtin=?
+                OR lower(model)=lower(?)
+            LIMIT 1
+        """, (
+            linked_product_id,
+            linked_product_id
+        )).fetchone()
 
     existing_gtin = None
     existing_model = None
 
-    if existing_page:
-        existing_gtin = normalize_gtin(existing_page["gtin"])
- 
-        if is_valid_model(existing_page["model"]):
-            existing_model = existing_page["model"]
+    if linked_product:
+        existing_gtin = normalize_gtin(linked_product["gtin"])
 
+        if is_valid_model(linked_product["model"]):
+            existing_model = linked_product["model"]
+ 
     needs_identity_enrichment = not (
-        existing_gtin and existing_model
+        existing_gtin or existing_model
     )
 
     existing_claim_count = count_claims(
         conn,
-        existing_gtin or existing_model
+        linked_product_id
     )
 
     MIN_CLAIMS = 10
@@ -952,9 +981,18 @@ async def run_miner(url, category):
     print("existing_gtin:", existing_gtin)
     print("existing_model:", existing_model)
     print("needs_identity_enrichment:", needs_identity_enrichment)
-    is_rebuild_mode = (
-        REBUILD_MODE
+    should_recrawl = (
+        needs_identity_enrichment
         or needs_spec_rebuild
+    )
+
+    print("\n=== RECRAWL CHECK ===")
+    print("needs_identity_enrichment:", needs_identity_enrichment)
+    print("needs_spec_rebuild:", needs_spec_rebuild)
+    print("should_recrawl:", should_recrawl)
+ 
+    is_rebuild_mode = (
+        REBUILD_MODE and should_recrawl
     )
 
     if is_rebuild_mode:
@@ -983,10 +1021,10 @@ async def run_miner(url, category):
             "gtin": existing_gtin,
             "model": existing_model,
             "sku": None,
-            "brand": existing_page["brand"] if existing_page else None,
-            "title": existing_page["title"] if existing_page else None,
+            "brand": linked_product["brand"] if linked_product else None,
+            "title": linked_product["title"] if linked_product else None,
             "price": None,
-            "image_url": existing_page["image_url"] if existing_page else None,
+            "image_url": linked_product["image_url"] if linked_product else None,
             "category": category
         })
 
@@ -1011,7 +1049,9 @@ async def run_miner(url, category):
             print("MODEL:", resolved_model)
 
             print("[IDENTITY COMPLETE - SKIPPING RECRAWL]")
-            if resolved_gtin and resolved_model:
+            if resolved_gtin and resolved_model and not should_recrawl:
+                print("[SKIP FULL RECRAWL - SUFFICIENT DATA EXISTS]")
+
                 mark_complete(conn, url)
 
                 return {
@@ -1853,6 +1893,17 @@ async def run_miner(url, category):
                         print(f"[FINAL GTIN] {val}")
                         break
 
+        if product and product.get("additionalProperty"):
+            for p in product["additionalProperty"]:
+                if not isinstance(p, dict):
+                    continue
+
+                name = p.get("name")
+                value = p.get("value")
+
+                if name and value:
+                    combined_specs.append((name, value))
+
         print("\n=== DEBUG: BEFORE process_product ===")
         print("combined_specs len:", len(combined_specs))
         print("markdown len:", len(markdown) if markdown else 0)
@@ -1865,7 +1916,7 @@ async def run_miner(url, category):
         else:
             structured_input = None
 
-            if extracted_specs or next_specs:
+            if combined_specs:
                 structured_input = [
                     {
                         "source_label": name,
@@ -1887,6 +1938,7 @@ async def run_miner(url, category):
                 skip_llm=False if is_rebuild_mode else bool(structured_input),
                 structured_input=structured_input
             )
+
             structured = list(structured or [])
 
 
@@ -1951,17 +2003,6 @@ async def run_miner(url, category):
         print("\n=== DEBUG: FILTER CHECK ===")
         print("source_type:", source_type)
         print("pillar_count:", pillar_count)
-
-        if not is_identity_mode and not is_rebuild_mode:
-            if source_type == "manufacturer" and pillar_count < 2:
-                log_crawl(conn, url, "failed")
-                mark_complete(conn, url)
-                return {"skipped": True}
-
-            if not structured and source_type == "manufacturer":
-                log_crawl(conn, url, "failed")
-                mark_failed(conn, url)
-                return None
 
         existing = None
 
