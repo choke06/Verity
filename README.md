@@ -15,8 +15,13 @@ A claim is credible if it is supported by credible sources.
 # Approach
 
 Sources and claims form a bipartite graph. Each edge represents a source asserting a claim about a product spec. Rather than resolving conflicts by majority vote, Verity jointly infers source credibility and claim confidence from the graph.
-![Source Claim Graph](images/source_claim_graph.png)
-*Sources (red) assert claims (blue). Each edge represents one assertion.*
+<p align="center">
+  <img src="images/source_claim_graph.png" width="420">
+</p>
+
+<p align="center">
+  <em>Sources (red) assert claims (blue). Each edge represents one assertion.</em>
+</p>
 The idea is to see whether credibility can emerge naturally through repeated movement across the network.
 
 You can think of it as a verifier traveling through the network at random: starting on one source then moving to the set of claims it asserts, then from those claims to it's other supporting sources, over and over again repeatedly. Sources that consistently connect to credible claims will get revisited more often. Claims supported by credible sources also get revisited more often.
