@@ -29,5 +29,3 @@ The key question: does this graph admit a stable assignment of credibility and t
 - Approximately 275-300 products indexed
 - 15,000+ extracted claims (soon to be many more!)
 
-Data pipeline running. Algorithm design in progress.
-
