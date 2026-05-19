@@ -4,7 +4,7 @@ A graph-based credibility inference system for conflicting e-commerce product sp
 
 # The Problem
 
-Product specs conflict across retailers, manufacturers, and government sites. Sources copy each other, so errors propagate. You can't resolve conflicts by majority vote alone.
+Sources frequently copy each other, causing incorrect claims to propagate across the web. Simple majority voting fails because agreement does not imply independence.
 
 # The Core Challenge
 
