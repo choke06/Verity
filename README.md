@@ -8,7 +8,11 @@ Sources frequently copy each other, causing incorrect claims to propagate across
 
 # The Core Challenge
 
-Sources and claims have a dependency relationship: a source's credibility depends on the accuracy of its claims, and a claim's accuracy depends on the credibility of its sources.
+Each source asserts claims about product attributes, but source credibility and claim credibility depend on each other recursively.
+A source is reliable if it consistently supports true claims.
+A claim is reliable if it is supported by reliable sources.
+
+Verity models the relationship between sources and claims as a graph structure and uses recursive analysis to estimate the quality, or credibility of every source and the confidence of every claim it asserts.
 
 # The Approach
 
