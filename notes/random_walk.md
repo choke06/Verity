@@ -25,7 +25,7 @@ One possible traversal process:
 - claim -> supporting source
 - repeat
 
-Maybe certain regions of the graph naturally become more stable or revisited more frequently than others.
+Maybe some regions of the graph reinforce themselves more strongly than others.
 
 I'm not fully sure yet whether revisit frequency meaningfully corresponds to credibility, but the intuition feels interesting.
 
