@@ -20,16 +20,14 @@ The key question: does this graph admit a stable assignment of credibility and t
 # Stack
 
 - Python (crawler + scraper)
-- 
 - SQLite (data storage)
-- 
-- Current retail domains include Amazon, Walmart, Target, Best Buy, Home Depot, Lowe's
 
-- Current manufacturer domains include Apple, Dell, HP, Lenovo, Sony, SharkNinja, Nespresso
-- Current categories: consumer electronics and home appliances.
-- Current scale: approximately 275-300 products (soon to be many more!)
+# Current Status of Verity
 
-# Status
+- Retailer, manufacturer, and government source ingestion
+- Domains include Amazon, Walmart, Target, Best Buy, Home Depot, Apple and more
+- Approximately 275-300 products indexed
+- 15,000+ extracted claims (soon to be many more!)
 
 Data pipeline running. Algorithm design in progress.
 
