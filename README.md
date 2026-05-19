@@ -16,7 +16,7 @@ A claim is credible if it is supported by credible sources.
 
 Sources and claims form a bipartite graph. Each edge represents a source asserting a claim about a product spec. Rather than resolving conflicts by majority vote, Verity jointly infers source credibility and claim confidence from the graph.
 <p align="center">
-  <img src="images/source_claim_graph.png" width="420">
+  <img src="images/source_claim_graph.png" width="520">
 </p>
 
 <p align="center">
