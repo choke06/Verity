@@ -25,7 +25,7 @@ This creates a bipartite structure where:
 
 ![Claims Graph](../data/claims.png)
 
-For example:
+For instance:
 
 - claim 892 = screen_brightness_nits : 300 nits
 - claim 1047 = screen_brightness_nits : 250 nits
