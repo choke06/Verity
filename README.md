@@ -15,7 +15,7 @@ A claim is credible if it is supported by credible sources.
 # The Approach
 
 Sources and claims form a bipartite graph. Each edge represents a source asserting a claim about a product spec. Rather than resolving conflicts by majority vote, the goal is a scoring system where source credibility and claim confidence are inferred jointly from the structure of the graph itself.
-The key question: does this graph admit a stable assignment of credibility and truth under those constraints?
+The goal is to see whether credibility can emerge from the structure of the network itself
 
 You can think of it like randomly moving through the network: from a source to the claims it asserts, then from those claims to other supporting sources, over and over again. Sources and claims that the process keeps returning to become more credible over time.
 
