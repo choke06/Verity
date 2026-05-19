@@ -9,8 +9,8 @@ Sources frequently copy each other, causing incorrect claims to propagate across
 # The Core Challenge
 
 Each source asserts claims about product attributes, but source credibility and claim credibility depend on each other recursively.
-A source is reliable if it consistently supports true claims.
-A claim is reliable if it is supported by reliable sources.
+A source is credible if it consistently supports true claims.
+A claim is credible if it is supported by credible sources.
 
 # The Approach
 
