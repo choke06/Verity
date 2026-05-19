@@ -35,9 +35,13 @@ If many sources are all indirectly copying the same upstream information, the gr
 
 Right now I'm experimenting with recursive update ideas like:
 
-c_j = Σ_i w_i A_ij
+\[
+c_j = \sum_i w_i A_{ij}
+\]
 
-w_i^(t+1) ∝ Σ_j c_j A_ij
+\[
+w_i^{(t+1)} \propto \sum_j c_j A_{ij}
+\]
 
 where claims reinforce sources and sources reinforce claims.
 
@@ -45,7 +49,9 @@ Another thing I'm wondering about is whether the walk can get trapped in closed 
 
 Maybe introducing a small random jump probability helps prevent this to ensure distribution:
 
-P' = αP + (1-α)U
+\[
+P' = \alpha P + (1-\alpha)U
+\]
 
 This is loosely inspired by the intuition behind PageRank-style random walks, where occasional jumps prevent the process from becoming trapped in dense local structures.
 
