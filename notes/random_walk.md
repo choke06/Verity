@@ -31,7 +31,7 @@ Maybe some regions of the graph reinforce themselves more strongly than others.
 
 I'm not fully sure yet whether revisit frequency meaningfully corresponds to credibility, but the intuition feels interesting. Also, it is important to note that agreement clearly does not imply independence.
 
-If many sources are all indirectly copying the same upstream information, the graph can appear highly confident with a lack of independent verification. In such a case, naive majority voting feels misleading.
+If many sources are all indirectly copying the same upstream information, the graph can appear highly confident with a lack of independent verification. In such a case, majority voting feels misleading.
 
 Right now I'm experimenting with recursive update ideas like:
 
