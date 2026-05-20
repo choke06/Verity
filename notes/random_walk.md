@@ -52,7 +52,3 @@ Maybe introducing a small random jump probability helps prevent this to ensure f
 \[
 P' = \alpha P + (1-\alpha)U
 \]
-
-This is loosely inspired by the intuition behind PageRank-style random walks, where occasional jumps prevent the process from becoming trapped.
-
-Currently still exploring whether stable credibility can emerge from the graph structure itself.
