@@ -34,6 +34,8 @@ If multiple independent sources support claim 892, the graph may repeatedly revi
 
 However, it would be naive to classify each source as independent. This is because agreement alone does not necessarily imply independence.
 
+### Dependency Propagation
+
 ![Dependency Propagation](../images/dependency_propagation.png)
 
 In this example:
