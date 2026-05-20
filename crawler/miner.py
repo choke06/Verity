@@ -1,4 +1,3 @@
-
 import json
 from crawling.fetch_page import fetch_page
 from brain import (
