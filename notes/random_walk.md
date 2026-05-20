@@ -47,7 +47,7 @@ where claims reinforce sources and sources reinforce claims.
 
 Another problem is the walk can get trapped in infinite closed loops which risks artificially inflating perceived credibility.
 
-Maybe introducing a small random jump probability helps prevent this to ensure full distribution:
+Perhaps introducing a small random jump probability helps prevent this to ensure full distribution:
 
 \[
 P' = \alpha P + (1-\alpha)U
