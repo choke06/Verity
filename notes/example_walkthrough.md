@@ -1,4 +1,4 @@
-# Example Walkthrough
+# Claim Graph Example
 
 Suppose several sources publish specifications about the same laptop display.
 
