@@ -1,8 +1,6 @@
 import json
-
 from openai import OpenAI
-
-from identity.model_matching import is_valid_model
+from db import is_valid_model
 
 
 client = OpenAI()
