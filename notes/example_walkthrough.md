@@ -16,7 +16,7 @@ Each source forms an edge to the claim it asserts:
 
 source_id -> claim_id
 
-This creates a bipartite structure where:
+This creates a structure where:
 - sources connect to claims
 - claims accumulate support from multiple sources
 - conflicting claims compete for reinforcement
@@ -25,7 +25,7 @@ This creates a bipartite structure where:
 
 ![Claims Graph](../data/claims.png)
 
-For instance:
+In the above images,
 
 - claim 892 = screen_brightness_nits : 300 nits
 - claim 1047 = screen_brightness_nits : 250 nits
