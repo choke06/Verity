@@ -37,5 +37,5 @@ You can think of it as a verifier traveling through the network at random: start
 - Prototype in development
 - Retailer, manufacturer, and government source ingestion
 - Approximately 275-300 products indexed
-- Sources include Amazon, Walmart, Target, Best Buy, Home Depot, Apple and more
+- Sources include Amazon, Walmart, Target, Best Buy, Home Depot, Apple, and more
 - 15,000+ extracted claims (soon to be many more!)
