@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+
 def dedupe_claims(claims):
     seen = set()
     deduped = []
@@ -47,6 +49,9 @@ def extract_generic_html_specs(html):
 
     if not html:
         return generic_specs
+
+    print("\n=== GENERIC HTML DEBUG ===")
+    print(html[:10000])
 
     soup = BeautifulSoup(html, "lxml")
 
@@ -136,6 +141,67 @@ def extract_generic_html_specs(html):
                 continue
 
             generic_specs.append((label, value))
+
+    spec_rows = soup.select("""
+        li,
+        .spec-row,
+        .specs-row,
+        .spec-item,
+        .specifications-row,
+        .techSpec,
+        .tech-spec,
+        .attribute,
+        .feature,
+        .details-row
+    """)
+
+    for row in spec_rows:
+
+        label = None
+        value = None
+
+        label_el = row.select_one("""
+            .label,
+            .name,
+            .title,
+            .spec-name,
+            .attribute-label,
+            dt
+        """)
+
+        value_el = row.select_one("""
+            .value,
+            .spec-value,
+            .attribute-value,
+            dd
+        """)
+
+        if label_el and value_el:
+
+            label = label_el.get_text(" ", strip=True)
+            value = value_el.get_text(" ", strip=True)
+    
+        else:
+
+            text = row.get_text(" | ", strip=True)
+
+            parts = [
+                p.strip()
+                for p in text.split("|")
+                if p.strip()
+            ]
+
+            if len(parts) >= 2:
+                label = parts[0]
+                value = parts[1]
+
+        if not label or not value:
+            continue
+
+        if len(label) > 200 or len(value) > 500:
+            continue
+ 
+        generic_specs.append((label, value))
 
     return dedupe_claims(generic_specs)
 
