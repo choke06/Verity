@@ -54,6 +54,80 @@ from identity.model_matching import (
     is_valid_model
 )
 
+
+def get_existing_product(conn, url):
+    page_row = conn.execute("""
+        SELECT id
+        FROM crawled_pages
+        WHERE url=?
+        ORDER BY id DESC
+        LIMIT 1
+    """, (url,)).fetchone()
+
+    page_id = page_row["id"] if page_row else None
+
+    product_id = None
+
+    if page_id:
+        linked_claim = conn.execute("""
+            SELECT product_id
+            FROM raw_claims
+            WHERE page_id=?
+              AND product_id IS NOT NULL
+              AND product_id != ''
+            LIMIT 1
+        """, (page_id,)).fetchone()
+
+        if linked_claim:
+            product_id = linked_claim["product_id"]
+
+    existing_product = None
+
+    if product_id:
+        existing_product = conn.execute("""
+            SELECT *
+            FROM products
+            WHERE gtin=?
+               OR lower(model)=lower(?)
+            LIMIT 1
+        """, (
+            product_id,
+            product_id
+        )).fetchone()
+
+    existing_gtin = None
+    existing_model = None
+
+    if existing_product:
+        existing_gtin = normalize_gtin(
+            existing_product["gtin"]
+        )
+
+        if is_valid_model(
+            existing_product["model"]
+        ):
+            existing_model = existing_product["model"]
+
+    return (
+        product_id,
+        existing_product,
+        existing_gtin,
+        existing_model
+    )
+
+
+def find_gtin_in_specs(combined_specs):
+    for name, value in combined_specs:
+        k = str(name).lower()
+        val = str(value).strip()
+
+        if k in ["gtin", "upc"]:
+            if val.isdigit() and 12 <= len(val) <= 14:
+                print(f"[FINAL GTIN] {val}")
+                return val
+
+    return None
+
         
 async def run_miner(url, category):
     conn = get_db()
@@ -257,15 +331,9 @@ async def run_miner(url, category):
         combined_specs = identity_result["combined_specs"]
 
         if not identity["gtin"]:
-            for name, value in combined_specs:
-                k = str(name).lower()
-                val = str(value).strip()
-
-                if k in ["gtin", "upc"]:
-                    if val.isdigit() and 12 <= len(val) <= 14:
-                        identity["gtin"] = val
-                        print(f"[FINAL GTIN] {val}")
-                        break
+            identity["gtin"] = find_gtin_in_specs(
+                combined_specs
+            )
 
         if product and product.get("additionalProperty"):
             for p in product["additionalProperty"]:
