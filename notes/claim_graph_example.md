@@ -32,16 +32,16 @@ In the above images,
 
 If multiple independent sources support claim 892, the graph may repeatedly revisit that region during recursive propagation.
 
-However, it would be naive to classify each source as independent by default. This is because agreement alone does not necessarily imply independence.
+But, it would be naive to classify each source as independent by default. This is because agreement alone does not necessarily imply independence.
 
 ### Dependency Propagation
 
 ![Dependency Propagation](../images/dependency_propagation.png)
 
-In this example:
+In the graph above:
 
 - S1 supports claim C1
 - S2 may reference or inherit from S1
 - Therefore, C2 may accumulate reinforcement originating from a partially shared dependency, not truly independent verification.
 
-This is one reason the graph topology itself may contain important credibility signals.
+This is one reason I believe the graph topology itself may contain important credibility signals that is worth exploring.
