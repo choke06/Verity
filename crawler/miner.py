@@ -15,7 +15,6 @@ from db import (
 from persistence.claims import persist_claims
 from identity.resolution import resolve_product_identity
 from identity.gtin import normalize_gtin
-from identity.identity_utils import run_llm_identity
 from identity.extract_identity import enrich_identity
 from identity.dedupe import (
     is_duplicate_sku
@@ -39,10 +38,6 @@ from config import (
     IDENTITY_RESET_MODE,
     REBUILD_MODE
 )
-from openai import OpenAI
-
-
-client = OpenAI()
 
 
 from extraction.identity_extractors import (
@@ -144,54 +139,9 @@ async def run_miner(url, category):
  
     status = status_row["status"] if status_row else "pending"
 
-    page_row = conn.execute("""
-        SELECT id
-        FROM crawled_pages
-        WHERE url=?
-        ORDER BY id DESC
-        LIMIT 1
-    """, (url,)).fetchone()
-
-    page_id = page_row["id"] if page_row else None
-
-    product_id = None
-
-    if page_id:
-        linked_claim = conn.execute("""
-            SELECT product_id
-            FROM raw_claims
-            WHERE page_id=?
-              AND product_id IS NOT NULL
-              AND product_id != ''
-            LIMIT 1
-        """, (page_id,)).fetchone()
-
-        if linked_claim:
-            product_id = linked_claim["product_id"]
-
-    existing_product = None
-
-    if product_id:
-        existing_product = conn.execute("""
-            SELECT *
-            FROM products
-            WHERE
-                gtin=?
-                OR lower(model)=lower(?)
-            LIMIT 1
-        """, (
-            product_id,
-            product_id
-        )).fetchone()
-
-    existing_gtin = None
-    existing_model = None
-
-    if existing_product:
-        existing_gtin = normalize_gtin(existing_product["gtin"])
-
-        if is_valid_model(existing_product["model"]):
-            existing_model = existing_product["model"]
+    product_id, existing_product, existing_gtin, existing_model = (
+        get_existing_product(conn, url)
+    )
  
     enrich_identity = not (
         existing_gtin or existing_model
