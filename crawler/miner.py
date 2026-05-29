@@ -306,16 +306,13 @@ async def run_miner(url, category):
             structured = []
 
         else:
-            structured_input = None
-
-            if combined_specs:
-                structured_input = [
-                    {
-                        "source_label": name,
-                        "source_value": value
-                    }
-                    for name, value in combined_specs
-                ]
+            structured_input = [
+                {
+                    "source_label": name,
+                    "source_value": value
+                }
+                for name, value in combined_specs
+            ] if combined_specs else None
 
             print(
                 f"[PROCESS_PRODUCT INPUT] combined_specs={len(combined_specs)} "
@@ -373,9 +370,6 @@ async def run_miner(url, category):
         gtin = normalize_gtin(identity["gtin"])
         model = identity["model"]
         sku = identity["sku"]
-
-        if not model:
-            model = None
 
         if not sku:
             sku = extract_sku_from_text(markdown, html)
