@@ -196,7 +196,7 @@ async def run_miner(url, category):
         get_existing_product(conn, url)
     )
  
-    enrich_identity = not (
+    need_identity = not (
         existing_gtin or existing_model
     )
 
@@ -216,15 +216,15 @@ async def run_miner(url, category):
 
     identity_mode = (
         IDENTITY_RESET_MODE
-        and enrich_identity
+        and need_identity
     )
 
     print("\n=== IDENTITY CHECK ===")
     print("existing_gtin:", existing_gtin)
     print("existing_model:", existing_model)
-    print("enrich_identity:", enrich_identity)
+    print("need_identity:", need_identity)
     recrawl = (
-        enrich_identity
+        need_identity
         or rebuild_specs
     )
 
