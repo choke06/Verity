@@ -49,6 +49,7 @@ from identity.model_matching import (
     is_valid_model
 )
 
+
 MIN_CLAIMS = 10
 
 IDENTITY_FIELDS = {
