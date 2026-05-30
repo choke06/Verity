@@ -12,10 +12,6 @@ from db import get_db, save_url, count_urls
 from search_bridge import get_crawl_priority
 
 
-def is_high_security(url: str) -> bool:
-    return any(domain in url for domain in HIGH_SECURITY_DOMAINS)
-
-
 async def fetch_with_cdp(url):
     async with async_playwright() as p:
         browser = await p.chromium.connect_over_cdp("http://localhost:9222")
@@ -32,7 +28,7 @@ async def fetch_with_cdp(url):
         return await page.content()
 
 
-async def fetch_with_retry(url, retries=2):
+async def get_page(url, retries=2):
     for i in range(retries):
         try:
             return await fetch_with_cdp(url)
@@ -42,7 +38,7 @@ async def fetch_with_retry(url, retries=2):
             await asyncio.sleep(3)
 
 
-async def fetch_with_crawler(url):
+async def crawl_page(url):
     async with AsyncWebCrawler(config=BrowserConfig(**BROWSER_CONFIG)) as crawler:
         result = await crawler.arun(url=url)
 
@@ -61,16 +57,7 @@ async def fetch_with_crawler(url):
         return html
 
 
-def is_likely_product_url(url: str) -> bool:
-    u = url.lower()
-    domain = urlparse(url).netloc.lower()
-    for retailer, patterns in PRODUCT_URL_PATTERNS.items():
-        if retailer in domain:
-            return any(p in u for p in patterns)
-    return any(p in u for p in PRODUCT_URL_PATTERNS["default"])
-
-
-def get_retailer_config(url):
+def retailer_config(url):
     domain = urlparse(url).netloc.lower()
     for key in RETAILER_CONFIG:
         if key in domain:
@@ -78,7 +65,7 @@ def get_retailer_config(url):
     return None
 
 
-def extract_product_key(url: str) -> str:
+def product_key(url: str) -> str:
     url = url.lower().split("?")[0].split("#")[0]
 
     sku_match = re.search(r"/sku/(\d+)", url)
@@ -135,7 +122,7 @@ async def run_scout():
             print(f"[SEED BRAND]: {seed_brand}")
             print(f"[TARGET PER SEED]: {target_per_seed}")
 
-            config = get_retailer_config(seed_url)
+            config = retailer_config(seed_url)
             if not config:
                 continue
 
@@ -185,11 +172,11 @@ async def run_scout():
                         except:
                             continue
 
-                print(f"[GRID LINKS FOUND]: {len(found_links)}")
+                print("grid links:", len(found_links))
 
                 if len(found_links) == 0:
                     soup = BeautifulSoup(html, "lxml")
-                    config = get_retailer_config(current_url)
+                    config = retailer_config(current_url)
                     selectors = config.get("container_selectors", []) if config else []
 
                     for selector in selectors:
@@ -209,10 +196,10 @@ async def run_scout():
                                 found_links.add(href)
 
                     if found_links:
-                        print(f"[CONFIG GRID LINKS FOUND]: {len(found_links)}")
+                        print("selector links:", len(found_links))
 
                 if 0 < len(found_links) < 20:
-                    print("[PARTIAL GRID - CONTINUING PAGINATION]")
+                    print("continuing pagination")
 
                 if len(found_links) == 0:
                     continue
@@ -221,7 +208,7 @@ async def run_scout():
                     if seed_collected >= target_per_seed:
                         break
 
-                    key = extract_product_key(href)
+                    key = product_key(href)
 
                     if key in total_collected:
                         continue
