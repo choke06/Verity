@@ -236,10 +236,14 @@ async def run_miner(url, category):
         or rebuild_specs
     )
 
-    print("\n=== RECRAWL CHECK ===")
-    print("need_identity:", need_identity)
-    print("rebuild_specs:", rebuild_specs)
-    print("recrawl:", recrawl)
+    print(
+        "recrawl:",
+        recrawl,
+        "| identity:",
+        need_identity,
+        "| rebuild:",
+        rebuild_specs
+    )
  
     rebuild_mode = (
         REBUILD_MODE and recrawl
@@ -292,7 +296,7 @@ async def run_miner(url, category):
         spec_payloads = crawl_result["spec_payloads"]
         domain = crawl_result["domain"]
 
-        print("\n===== MARKDOWN LENGTH =====")
+        print("markdown:", len(markdown))
         print(len(markdown))
 
         extracted_specs = extract_home_depot_specs(
@@ -300,7 +304,7 @@ async def run_miner(url, category):
         )
 
         if extracted_specs:
-            print("\n===== API SPECS =====")
+            print("api specs:", extracted_specs[:10])
             print(extracted_specs[:10])
 
         product_data = extract_product_data(
@@ -351,10 +355,11 @@ async def run_miner(url, category):
             combined_specs
         )
 
-        print("\n=== DEBUG: BEFORE process_product ===")
-        print("combined_specs len:", len(combined_specs))
-        print("markdown len:", len(markdown) if markdown else 0)
-        print("product exists:", bool(product))
+        print(
+            "before process_product:",
+            len(combined_specs),
+            "specs"
+        )
 
         if identity_mode and not rebuild_mode:
             print("[UNRESOLVED] skipping spec extraction")
@@ -370,9 +375,9 @@ async def run_miner(url, category):
             ] if combined_specs else None
 
             print(
-                f"[PROCESS_PRODUCT INPUT] combined_specs={len(combined_specs)} "
-                f"structured_input={len(structured_input or [])} "
-                f"skip_llm={False if rebuild_mode else bool(structured_input)}"
+                "process_product:",
+                len(combined_specs),
+                len(structured_input or [])
             )
 
             structured = process_product(
@@ -386,19 +391,19 @@ async def run_miner(url, category):
             structured = list(structured or [])
 
 
-        print("\n=== DEBUG: AFTER process_product ===")
-        print("structured len:", len(structured))
-        print("structured sample:", structured[:5])
+        print(
+            "structured:",
+            len(structured)
+        )
 
-        print("\n=== FINAL STRUCTURED CLAIMS ===")
-        for attr, data in structured[:15]:
-            print(attr, "=>", data)
+        for attr, data in structured[:10]:
+            print(attr, data)
 
         structured = strip_identity_claims(
             structured
         )
 
-        print(f"[POST FILTER CLAIM COUNT] {len(structured)}")
+        print("claims:", len(structured))
 
         brand, title = fill_missing_metadata(
             structured,
@@ -423,9 +428,12 @@ async def run_miner(url, category):
         source_type = get_source_type(conn, url)
         pillar_count = get_pillar_count(structured, category)
 
-        print("\n=== DEBUG: FILTER CHECK ===")
-        print("source_type:", source_type)
-        print("pillar_count:", pillar_count)
+        print(
+            "source:",
+            source_type,
+            "| pillars:",
+            pillar_count
+        )
 
         resolution = resolve_product_identity(
             conn=conn,
@@ -446,13 +454,12 @@ async def run_miner(url, category):
         gtin = resolution["gtin"]
         model = resolution["model"]
 
-        print("\n=== FINAL IDENTITY ===")
-        print("GTIN:", gtin)
-        print("MODEL:", model)
-        print("SKU:", sku)
-        print("BRAND:", brand)
-        print("TITLE:", title)
-        print("RECORD ID:", record_id)
+        print(
+            "identity:",
+            gtin,
+            model,
+            sku
+        )
 
         if gtin and model:
             conn.execute("""
