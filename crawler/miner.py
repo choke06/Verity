@@ -136,6 +136,47 @@ def merge_additional_properties(product, combined_specs):
             combined_specs.append((name, value))
 
 
+def remove_identity_claims(structured):
+    filtered = []
+
+    for attr, data in structured:
+        if attr in {
+            "gtin",
+            "model",
+            "sku",
+            "mpn",
+            "upc",
+            "dpci",
+            "model_number"
+        }:
+            print(f"[POST-FILTER REMOVED] {attr}: {data}")
+            continue
+
+        filtered.append((attr, data))
+
+    return filtered
+
+
+def recover_brand_title(structured, brand, title):
+    for attr, data in structured:
+
+        if not isinstance(data, dict):
+            continue
+
+        display = data.get("display")
+
+        if not display:
+            continue
+
+        if attr == "brand" and not brand:
+            brand = display
+
+        elif attr in {"title", "product_name"} and not title:
+            title = display
+
+    return brand, title
+
+
 async def run_miner(url, category):
     conn = get_db()
 
@@ -347,31 +388,17 @@ async def run_miner(url, category):
 
         filtered = []
 
-        for attr, data in structured:
-            if attr in {"gtin", "model", "sku", "mpn", "upc", "dpci", "model_number"}:
-                print(f"[POST-FILTER REMOVED] {attr}: {data}")
-                continue
-            filtered.append((attr, data))
-
-        structured = filtered
+        structured = remove_identity_claims(
+            structured
+        )
 
         print(f"[POST FILTER CLAIM COUNT] {len(structured)}")
 
-        for attr, data in structured:
-
-            if not isinstance(data, dict):
-                continue
-
-            display = data.get("display")
-
-            if not display:
-                continue
-
-            if attr == "brand" and not brand:
-                brand = display
-
-            elif attr in ["title", "product_name"] and not title:
-                title = display
+        brand, title = recover_brand_title(
+            structured,
+            brand,
+            title
+        )
 
         gtin = normalize_gtin(identity["gtin"])
         model = identity["model"]
