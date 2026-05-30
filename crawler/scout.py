@@ -55,7 +55,28 @@ async def crawl_page(url):
             html = await page.content()
 
         return html
+        
 
+def use_cdp(url):
+    return any(
+        domain in url
+        for domain in HIGH_SECURITY_DOMAINS
+    )
+
+
+def looks_like_product(url):
+    u = url.lower()
+    domain = urlparse(url).netloc.lower()
+
+    for retailer, patterns in PRODUCT_URL_PATTERNS.items():
+        if retailer in domain:
+            return any(p in u for p in patterns)
+
+    return any(
+        p in u
+        for p in PRODUCT_URL_PATTERNS["default"]
+    )
+    
 
 def retailer_config(url):
     domain = urlparse(url).netloc.lower()
@@ -65,7 +86,7 @@ def retailer_config(url):
     return None
 
 
-def product_key(url: str) -> str:
+def product_key(url):
     url = url.lower().split("?")[0].split("#")[0]
 
     sku_match = re.search(r"/sku/(\d+)", url)
@@ -138,7 +159,11 @@ async def run_scout():
 
                 visited_pages.add(current_url)
 
-                html = await crawl_page(current_url) if is_high_security(current_url) else await fetch_with_crawler(current_url)
+                html = (
+                    await get_page(current_url)
+                    if use_cdp(current_url)
+                    else await crawl_page(current_url)
+                )
 
                 if not html:
                     continue
@@ -162,7 +187,7 @@ async def run_scout():
                             for path in set(potential_paths):
                                 full_url = urljoin(current_url, path)
 
-                                if not is_likely_product_url(full_url):
+                                if not looks_like_product(full_url):
                                     continue
 
                                 if seed_brand not in full_url.lower():
@@ -192,7 +217,7 @@ async def run_scout():
 
                             href = urljoin(current_url, href)
  
-                            if is_likely_product_url(href):
+                            if looks_like_product(href):
                                 found_links.add(href)
 
                     if found_links:
