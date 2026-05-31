@@ -38,7 +38,7 @@ You can think of it as a verifier traveling at random: starting on one source th
   
 - Retailer, manufacturer, and government source ingestion
   
-- Approximately 275-300 products indexed, focused on 6 categories in electronics and home appliances (Laptops, Headphones, Portable Chargers/Banks, Air Fryers, Espresso Machines, and Mini Fridges)
+- Approximately 275-300 products indexed, focused on 6 subcategories in electronics and home appliances (Laptops, Headphones, Portable Chargers/Banks, Air Fryers, Espresso Machines, and Mini Fridges)
   
 - Sources include Amazon, Walmart, Target, Best Buy, Home Depot, Apple, and more
   
