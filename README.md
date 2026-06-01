@@ -2,6 +2,8 @@
 
 A graph-based credibility inference system for networks of conflicting claims without external ground truth.
 
+As AI systems increasingly make decisions and complete tasks using information gathered from across the web, determining which claims are most credible becomes increasingly important.
+
 # Problem
 
 Sources frequently copy each other, causing incorrect claims to propagate across the web. Verity models the relationship between sources and claims as a graph to estimate the credibility of every source and the confidence of every claim it asserts.
