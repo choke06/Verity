@@ -6,7 +6,7 @@ As AI systems increasingly make decisions and complete tasks autonomously using 
 
 # Problem
 
-Sources frequently copy each other, causing incorrect claims to propagate. Verity models the relationship between sources and claims as a graph to estimate the credibility of every source and the confidence of every claim it asserts.
+When multiple sources make conflicting claims, determining which information to trust becomes difficult. Verity models the relationship between sources and claims as a graph to estimate the credibility of every source and the confidence of every claim it asserts.
 
 # Core Challenge
 
