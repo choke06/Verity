@@ -42,7 +42,7 @@ However, the underlying framework is not specific to e-commerce. Any domain invo
   
 - Retailer, manufacturer, and government source ingestion
   
-- Approximately 275-300 products indexed, 6 subcategories in electronics and home appliances (Laptops, Headphones, Portable Chargers/Banks, Air Fryers, Espresso Machines, and Mini Fridges)
+- Approximately 275–300 products indexed across consumer electronics and home appliances
   
 - Sources include Amazon, Walmart, Target, Best Buy, Home Depot, Apple, and more
   
