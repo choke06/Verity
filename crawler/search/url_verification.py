@@ -1,9 +1,11 @@
+# search/url_verification.py
+
 from fetch_page import fetch_page
 from extraction.product_data import extract_product_data
 from extraction.home_depot import extract_home_depot_specs
 
 from identity.gtin import normalize_gtin
-from search.discovery import (
+from identity.identity_scoring import (
     gtin_overlap_score,
     model_overlap_score
 )
@@ -21,10 +23,6 @@ async def verify_candidate(url, seed_product):
         generic_specs = crawl_result["generic_specs"]
         extracted_specs = crawl_result["extracted_specs"]
         spec_payloads = crawl_result["spec_payloads"]
-
-        extracted_specs = extract_home_depot_specs(
-            spec_payloads
-        )
 
         product_data = extract_product_data(
             html=html,
@@ -81,9 +79,10 @@ async def verify_candidate(url, seed_product):
 
             print(f"model score: {score:.2f}")
 
-            return {
-                "approved": score >= 0.70
-            }
+            if score >= 0.70:
+                return {"approved": True}
+
+            print("model mismatch, keeping structured page")
 
         print("structured page approved")
 
