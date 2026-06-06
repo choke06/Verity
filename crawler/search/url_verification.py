@@ -1,5 +1,3 @@
-# search/url_verification.py
-
 from fetch_page import fetch_page
 from extraction.product_data import extract_product_data
 from extraction.home_depot import extract_home_depot_specs
