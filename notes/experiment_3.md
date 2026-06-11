@@ -76,7 +76,7 @@ This represents nearly two orders of magnitude more variation than the previous 
 
 The resulting credibility distribution became extremely concentrated.
 
-Nearly all credibility accumulated in two sources:
+It seems that nearly all credibility accumulated in two sources:
 
 * bjs.com
 * cosori.com
