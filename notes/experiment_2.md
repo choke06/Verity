@@ -58,9 +58,9 @@ In this dataset, credibility appears to converge toward a stable ranking after r
 
 One concern with recursive credibility systems is that the final ranking may depend heavily on arbitrary starting values.
 
-This experiment provides preliminary evidence that the current propagation rule may be relatively insensitive to initialization.
+This experiment provides evidence that the current propagation rule may be relatively insensitive to initialization.
 
-If this behavior persists under additional testing, the resulting credibility distribution may represent a property of the graph itself.
+If this behavior persists under additional testing, the resulting credibility distribution could represent a property of the graph itself.
 
 ## Open Questions
 
