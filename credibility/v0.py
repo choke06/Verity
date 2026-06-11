@@ -10,7 +10,7 @@ DB = os.path.join(
     "verity_v1.db"
 )
 
-# start every source with equal weight
+# we start every source with equal weight
 def initialize_vector(source_ids):
 
     n = len(source_ids)
