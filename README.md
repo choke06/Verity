@@ -23,7 +23,7 @@ Sources and claims form a bipartite graph. Each edge represents a source asserti
 </p>
 
 <p align="center">
-  <em>An animation of credibility propagation running on a small network of sources and claims. Node size represents inferred credibility, while edges represent assertions. As credibility flows through the graph, sources and claims reinforce or weaken one another until the network converges to a stable ranking.</em>
+  <em>An animation of credibility propagation running on a small network of sources and claims. Node size represents inferred credibility, while edges represent assertions.</em>
 </p>
 The idea is to see whether credibility can emerge naturally through repeated movement across the graph.
 
