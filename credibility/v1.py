@@ -13,7 +13,7 @@ DB = os.path.join(
 
 
 # start every source with equal weight
-def initialize_uniform(source_ids):
+def initialize_vector(source_ids):
 
     n = len(source_ids)
 
@@ -253,7 +253,7 @@ def main():
     print("running uniform initialization...")
     print()
 
-    uniform = initialize_uniform(
+    uniform = initialize_vector(
         source_ids
     )
 
