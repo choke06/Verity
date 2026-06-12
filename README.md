@@ -15,7 +15,7 @@ A claim becomes credible if it is supported by credible sources.
 
 # Approach
 
-Sources and claims form a bipartite graph. Each edge represents a source asserting a claim. Verity treats information as a network rather than a collection of independent observations.
+Sources and claims form a bipartite graph. Each edge represents a source asserting a claim. Verity treats information as an interconnected network rather than a collection of independent observations.
 <p align="center">
   <img src="images/credibility_animation.gif" width="520">
 </p>
