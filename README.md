@@ -57,6 +57,6 @@ The current implementation focuses on product specifications as an initial testb
 ### Current Questions
 
 * Why does bjs.com dominate the fixed point?
-* How should conflicting claims subtract credibility?
+* How should conflicting claims be modeled as a subtraction of credibility?
 * How can dependence between sources be modeled?
 * Should random walks with teleportation be introduced?
