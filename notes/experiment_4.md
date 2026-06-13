@@ -92,13 +92,7 @@ while nearly every other source collapses toward zero.
 
 *Final source credibility scores after convergence.*
 
-Need to figure out whether this is:
-
-* graph structure
-* source degree effects
-* duplicate information reinforcing itself
-* missing disagreement propagation
-* something wrong in the operator itself
+Need to figure out whether this is graph structure, source degree effects, duplicate information reinforcing itself, missing disagreement propagation, or, perhaps, just something wrong in the operator itself...
 
 Also, still haven't incorporated explicit disagreement yet. Currently, agreement only adds support. Conflicting claims don't directly subtract credibility.
 
