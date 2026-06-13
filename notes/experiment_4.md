@@ -10,7 +10,7 @@ Current graph:
 
 ![Graph summary](../images/exp4_graph_summary.png)
 
-*Figure 1: Current assertion graph statistics and early convergence under uniform initialization.*
+*Current graph size and early convergence under uniform initialization.*
 
 Current propagation:
 
@@ -60,13 +60,13 @@ Uniform converged after 97 iterations.
 
 ![Random initialization](../images/exp4_random_start.png)
 
-*Figure 3: Early iterations under random initialization begin from a different starting distribution.*
+*Early iterations under random initialization begin from a different starting distribution.*
 
 Random converged after 94 iterations.
 
 ![Random convergence](../images/exp4_random_convergence.png)
 
-*Figure 4: Random initialization also converges to a stable fixed point after 94 iterations.*
+*Uniform initialization converged after 97 iterations.*
 
 Final difference between solutions:
 
@@ -76,7 +76,7 @@ Final difference between solutions:
 
 ![Solution difference](../images/exp4_solution_difference.png)
 
-*Figure 5: The final solutions differ by only 2.37 × 10^-8.*
+*The final solutions differ by only 2.37 × 10^-8.*
 
 So at the moment it looks like we're converging to essentially the same fixed point regardless of initialization.
 
@@ -90,7 +90,7 @@ while nearly every other source collapses toward zero.
 
 ![Final rankings](../images/exp4_final_rankings.png)
 
-*Figure 6: Final source credibility scores after convergence.*
+*Final source credibility scores after convergence.*
 
 Need to figure out whether this is:
 
