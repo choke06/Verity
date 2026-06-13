@@ -56,7 +56,9 @@ Ran two initializations:
 * uniform
 * random
 
-Uniform converged after 97 iterations.
+![Uniform convergence](../images/exp4_uniform_convergence.png)
+
+*Uniform initialization converged after 97 iterations.*
 
 ![Random initialization](../images/exp4_random_start.png)
 
@@ -65,8 +67,6 @@ Uniform converged after 97 iterations.
 Random converged after 94 iterations.
 
 ![Random convergence](../images/exp4_random_convergence.png)
-
-*Uniform initialization converged after 97 iterations.*
 
 Final difference between solutions:
 
