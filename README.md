@@ -36,27 +36,27 @@ The current implementation focuses on product specifications as an initial testb
 
 ## Current Status of Verity
 
-(As of June 13, 2026)
+(As of June 14, 2026)
 
-### Dataset
+## Dataset
 
 * 24 sources
-* 12,783 canonical claims
-* 13,962 assertions
+* 12,684 canonical claims
+* 13,860 assertions
 
-### Recent Results
+## Recent Results
 
-* Implemented iterative source-claim credibility propagation
+* Added bidirectional normalization to the propagation step
 * Tested both uniform and random initialization
-* Both initializations converged to nearly identical solutions
-* Maximum observed difference after convergence: 2.37e-8
-* Evidence suggests the propagation operator converges to a stable fixed point
-* Credibility currently collapses heavily onto bjs.com
-* Explicit disagreement propagation has not yet been incorporated
+* Both initializations converged to nearly the same solution
+* Maximum observed difference after convergence: 4.44e-8
+* Source rankings appear much more balanced than before
+* The propagation scheme now seems relatively stable
+* Most claims are still asserted by only a single source
 
-### Current Questions
+## Current Questions
 
-* Why does bjs.com dominate the fixed point?
-* How should conflicting claims be modeled as a subtraction of credibility?
+* How much does increasing source overlap improve rankings?
+* How should conflicting claims reduce credibility?
 * How can dependence between sources be modeled?
-* Should random walks with teleportation be introduced?
+* Is the graph still too sparse for credibility propagation?
