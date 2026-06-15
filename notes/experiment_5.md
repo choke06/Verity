@@ -148,4 +148,4 @@ This means the graph contains relatively little agreement information for credib
 
 Improving product matching and claim canonicalization will likely have a larger impact than further changes to the propagation algorithm itself.
 
-The current results suggest that the propagation scheme is no longer the primary problem. Instead, I believe increasing overlap between sources may provide the largest improvement going forward in future experiments.
+The current results suggest that the propagation scheme is no longer the primary problem. I believe increasing overlap between sources may provide the largest improvement going forward in future experiments.
