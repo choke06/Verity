@@ -6,7 +6,7 @@ Experiment 4 demonstrated consistent convergence to a fixed point under both uni
 
 I have noted that the resulting rankings revealed a problem. Even after source degree normalization, some sources could still consume nearly all credibility because of the graph structure.
 
-To address this, we introduced normalization on both sides of the bipartite graph.
+To address this we introduced normalization on both sides of the bipartite graph.
 
 ## Previous propagation
 
