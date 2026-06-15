@@ -120,7 +120,7 @@ $$
 
 *The final solutions from uniform and random initialization differed by less than 4.44 × 10^-8.*
 
-The resulting rankings were substantially more balanced than in previous experiments.
+The resulting rankings were evidently more balanced than in previous experiments.
 
 Top sources:
 
