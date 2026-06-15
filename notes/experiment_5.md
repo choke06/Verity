@@ -118,7 +118,7 @@ $$
 
 ![Solution difference](../images/exp5_solution_difference.png)
 
-*The final solutions from uniform and random initialization differed by less than \(10^{-7}\).*
+*The final solutions from uniform and random initialization differed by less than 4.44 × 10^-8.*
 
 The resulting rankings were substantially more balanced than in previous experiments.
 
