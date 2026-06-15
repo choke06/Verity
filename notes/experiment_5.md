@@ -96,7 +96,7 @@ $$
 4.44 \times 10^{-8}
 $$
 
-The resulting rankings were substantially more balanced than in previous experiments.
+The resulting rankings were evidently more balanced than in previous experiments.
 
 Top sources:
 
@@ -108,7 +108,7 @@ Top sources:
 
 ## Current observations
 
-The algorithm now appears to behave much more reasonably than in earlier experiments. The remaining limitation is not convergence, but graph density.
+The algorithm now appears to behave much more reasonably than in earlier experiments. The remaining limitation is not convergence. It's graph density, a work in progress.
 
 Most claims are still asserted by only a single source:
 
