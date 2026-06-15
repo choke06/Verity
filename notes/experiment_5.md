@@ -44,7 +44,7 @@ $$
 
 where:
 
-* $(|S_j|)$ = number of sources asserting claim $(j)$
+* $(|S_j|)$ = number of sources supporting claim $(j)$
 
 The idea is simple: if many sources contribute to the same claim, we average that support instead of allowing it to accumulate indefinitely.
 
