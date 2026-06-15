@@ -2,7 +2,7 @@
 
 **Date:** June 14, 2026
 
-Experiment 4 showed that the graph consistently converges to a fixed point under both uniform and random initialization.
+Experiment 4 demonstrated consistent converges to a fixed point under both uniform and random initialization.
 
 I have noted that the resulting rankings revealed a problem. Even after source degree normalization, some sources could still consume nearly all credibility because of the graph structure.
 
