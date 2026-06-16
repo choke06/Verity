@@ -51,7 +51,7 @@ The relation isn't quite linear, there's still a decent amount of sources that g
 
 I also calculated correlation of unique claim ratio and final credibility:
 
-correlation = -0.1154
+`correlation = -0.1154`
 
 I thought it would be stronger than this.
 So the relationship isn't just:
@@ -65,7 +65,7 @@ Why?
 
 It seems that without any other source to vouch for it (on this graph, at least) unsupported claims can't seem to climb back up.
 
-Source -> claim -> source
+`source -> claim -> source`
 
 This highlights a more fundamental question: are we penalizing false claims or only isolated ones? A unique claim isn't always incorrect, it could be a newly discovered piece of information. Meanwhile, a widely reported claim isn't necessarily correct.
 
