@@ -11,7 +11,7 @@ Something odd happened with the final source credibility rankings. Several sourc
 - cosori.com
 - dell.com
 - bjs.com
-- 
+  
 At first, I assumed the propagation algorithm was buggy because the zero seemed a bit too perfect. But after reviewing the graph at the end for claim support, a noticeable pattern formed.
 
 For each source, I calculated:
