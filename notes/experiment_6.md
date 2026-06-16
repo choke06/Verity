@@ -1,4 +1,4 @@
-# Experiment 5 - Unique Claim Collapse
+# Experiment 6 - Unique Claim Collapse
 
 Date: June 16, 2026
 
@@ -13,7 +13,7 @@ I noticed something strange after looking at the final source rankings - several
 - bjs.com
 
 I suspected a bug is present in the propagation algorithm because zero is a bit random.
-Though, after computing claim support across the graph, a pattern became visible.
+However after computing claim support after the graph, a pattern became visible.
 
 For each source, I computed:
 
@@ -25,6 +25,7 @@ where a unique claim is asserted by exactly one source.
 
 Interesting result:
 
+```text
 lenovo.com      57 / 57 unique claims   (1.0000)
 pcrichard.com   50 / 50 unique claims   (1.0000)
 hp.com          47 / 47 unique claims   (1.0000)
