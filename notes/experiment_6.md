@@ -45,11 +45,11 @@ bestbuy.com      4615 / 5276 unique claims  (0.8747)
 
 Every source that collapsed to zero had a unique ratio of exactly 1.0.
 
-To see whether this pattern extended beyond only the collapsed sources, I plotted each source's unique claim ratio against its final credibility score:
+I plotted each source's unique claim ratio against its final credibility score:
 
 ![Isolation vs credibility](../images/isolation_vs_credibility.png)
 
-Interestingly enough, the relationship does not appear purely linear. Several highly credible sources still accumulate high unique claim ratios. Though, every source with a unique ratio of exactly 1.0 converged to zero credibility.
+The relationship does not appear purely linear. Many highly credible sources still receive high unique claim ratios. Though, every source with a unique ratio of exactly 1.0 converged to zero credibility.
 
 Why?
 
@@ -57,11 +57,11 @@ At least on the current graph, it appears as though unsupported claims may simpl
 
 source -> claim -> source
 
-This raises an important question we have to confront. Is the system penalizing false claims, or merely isolated ones?
+This raises an important question we have to confront. Is the system penalizing false claims or merely isolated ones?
 
 After all- a unique claim is not always necessarily incorrect. It may simply be new information that no other source has observed and recorded yet.
 
-Likewise, agreement is not necessarily evidence of truth. Multiple sources may be repeating the same incorrect information.
+On the flip side, agreement is not necessarily evidence of truth. Multiple sources may be repeating the same incorrect information.
 
 This suggests there may be at least four possible cases:
 
