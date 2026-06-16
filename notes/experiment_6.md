@@ -12,8 +12,8 @@ The final source rankings revealed a weird anomaly. Several sources consistently
 - dell.com
 - bjs.com
 
-At first, I assumed the propagation algorithm had a bug—zero seemed too clean.
-But when I checked the claim support post-graph, a distinct pattern emerged.
+At first, I assumed the propagation algorithm had a bug because zero seemed too clean.
+But when I checked the claim support after the graph, a distinct pattern emerged.
 
 For each source, I computed:
 
