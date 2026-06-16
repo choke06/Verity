@@ -42,6 +42,7 @@ amazon.com 2526 / 3019 unique claims (0.8367)
 bestbuy.com 4615 / 5276 unique claims (0.8747)
 ```
 Every single source that dropped to zero also happened to have a unique ratio of exactly 1.0.
+
 Below is a plot of the unique claim ratio vs. Final credibility of each source:
 
 ![Isolation vs credibility](../images/isolation_vs_credibility.png)
