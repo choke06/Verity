@@ -2,7 +2,7 @@
 
 Date: June 16, 2026
 
-I noticed something strange after looking at the final source rankings. Several sources consistently converged to exactly zero credibility:
+The final source rankings revealed a weird anomaly. Several sources consistently converged to exactly zero credibility:
 
 - lenovo.com
 - pcrichard.com
@@ -12,8 +12,8 @@ I noticed something strange after looking at the final source rankings. Several 
 - dell.com
 - bjs.com
 
-I suspected a bug is present in the propagation algorithm because zero is a bit random.
-However after computing claim support after the graph, a pattern became visible.
+At first, I assumed the propagation algorithm had a bug—zero seemed too clean.
+But when I checked the claim support post-graph, a distinct pattern emerged.
 
 For each source, I computed:
 
@@ -23,7 +23,7 @@ unique_ratio =
 
 where a unique claim is asserted by exactly one source.
 
-Interesting result:
+Here is the breakdown:
 
 ```text
 lenovo.com      57 / 57 unique claims   (1.0000)
@@ -49,7 +49,7 @@ I plotted each source's unique claim ratio against its final credibility score:
 
 ![Isolation vs credibility](../images/isolation_vs_credibility.png)
 
-The relationship does not appear purely linear. Many highly credible sources still receive high unique claim ratios. Though, every source with a unique ratio of exactly 1.0 converged to zero credibility.
+The correlation isn't purely linear. Many highly credible sources still receive high unique claim ratios. Though, every source with a unique ratio of exactly 1.0 converged to zero credibility.
 
 Why?
 
@@ -57,7 +57,7 @@ At least on the current graph, it appears as though unsupported claims may simpl
 
 source -> claim -> source
 
-This raises an important question we have to confront. Is the system penalizing false claims or merely isolated ones?
+This points to a fundamental question. Is the system penalizing false claims or merely isolated ones?
 
 After all- a unique claim is not always necessarily incorrect. It may simply be new information that no other source has observed and recorded yet.
 
@@ -72,4 +72,4 @@ This suggests there may be at least four possible cases:
 
 The graph currently observes agreement. It does not account for independence yet.
 
-Suppose a source is notorious for copying another source. How do we know? How does the system naturally identify correlated sources and ultimately, the outlier(s)?
+If a source is notorious for copying another source. How do we know? How does the system naturally identify correlated sources and ultimately, the outlier(s)?
