@@ -27,7 +27,9 @@ Therefore, we redefined claims as:
 claim = (productid, canonicalattribute)
 ```
 
-while source-specific values remained stored in `source_claims`:
+while source-specific values remained stored in `source_claims`.
+
+Current schema:
 
 claims
 
