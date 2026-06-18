@@ -1,0 +1,24 @@
+# MCP Interface
+
+Experimental MCP server for querying the Verity credibility graph.
+
+In a redefining technological era of AI systems increasingly generating and consuming information, the problem shifts from information retrieval to information verification. 
+
+Verity exposes an experimental MCP server that allows AI agents
+to query source credibility and claim support.
+
+The current implementation uses product specifications as a
+real-world benchmark, but the interface itself is domain agnostic.
+
+Current dataset:
+e-commerce product specifications.
+
+Long-term goal:
+domain-agnostic source credibility infrastructure for AI systems.
+
+Example tools:
+
+- get_source_credibility()
+- get_claim_support()
+- find_conflicting_claims()
+- trace_claim()
