@@ -1,3 +1,5 @@
+# v5.py
+
 import random
 
 from collections import defaultdict
@@ -108,20 +110,14 @@ def main():
         steps=steps
     )
 
-    print_results(
-        "starting from A",
-        visits
-    )
+    print_results("starting from A", visits)
 
     visits = run_verifier(
         start_source="D",
         steps=steps
     )
 
-    print_results(
-        "starting from D",
-        visits
-    )
+    print_results("starting from D", visits)
 
     print()
 
