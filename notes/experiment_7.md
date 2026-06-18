@@ -24,10 +24,16 @@ Both would produce two unique claim nodes for "screen_brightness" for that produ
 Therefore, we redefined claims as:
 
 ```text
-claim = (product_id, canonical_attribute)
+claim = (productid, canonicalattribute)
 ```
 
 while source-specific values remained stored in `source_claims`.
+
+This migration also changes what a claim represents.
+
+Under the previous schema, agreement was encoded directly into the graph because sources asserting identical values connected to the same claim node.
+
+Under the new schema, a claim represents a product attribute regardless of the asserted value. Sources now connect through a shared claim even when they disagree. Agreement and disagreement remain stored in `source_claims` and are not yet incorporated into credibility propagation.
 
 Current schema:
 
