@@ -138,7 +138,7 @@ truth
 
 # Real Graph Validation
 
-To determine whether the toy graph behavior existed in the actual Verity graph, I repeated the verifier simulation using the assertion graph directly.
+To determine whether the toy graph behavior exists in the actual Verity graph, I repeated the verifier simulation using the assertion graph directly.
 
 The verifier once again cycles:
 
