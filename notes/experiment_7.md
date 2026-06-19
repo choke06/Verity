@@ -33,7 +33,7 @@ This migration changes what a claim represents.
 
 More importantly, it also changes what the graph means.
 
-In Experiment 6, agreement means that two sources are asserting the same value. Under the new system, however, agreement means that two sources are talking about the same product attribute, even if the asserted values differ.
+In Experiment 6, agreement means that two sources are asserting the same value for the same product attribute. Under the new system, however, agreement means that two sources are talking about the same product attribute, even if the asserted values differ.
 
 Current schema:
 
