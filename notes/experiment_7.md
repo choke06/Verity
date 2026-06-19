@@ -29,9 +29,9 @@ claim = (product_id, canonical_attribute)
 
 while source-specific values remained stored in `source_claims`.
 
-This migration also changes what a claim represents.
+This migration changes what a claim represents.
 
-More importantly, it changes what the graph means.
+More importantly, it also changes what the graph means.
 
 In Experiment 6, agreement means that two sources are asserting the same value. Under the new system, however, agreement means that two sources are talking about the same product attribute, even if the asserted values differ.
 
