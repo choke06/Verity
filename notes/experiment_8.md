@@ -186,9 +186,9 @@ The Verifier only has information about how to navigate the graph structure.
 
 It is not aware of what is a manufacturer, retailer, government source, product category, etc.
 
-The result will be the same from anywhere within any such isolated component. It only observes graph structure.
+The result will be the same from anywhere within any such isolated component as it only observes graph structure.
 
-This seems like the explanation for Experiment 6 then. It appears to be a consequence of graph topology, not explicit judgment about a source's quality.
+This seems like the explanation for Experiment 6 then - it appears to be a consequence of graph topology, not explicit judgment about a source's quality itself.
 
 It is important to realize, however, that isolated claims don't mean incorrect ones, just as a widely shared claim does not mean it is correct.
 
