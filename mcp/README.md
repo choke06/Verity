@@ -2,7 +2,7 @@
 
 Experimental MCP server for querying the Verity credibility graph.
 
-Search helped humans find information.
+Search provided a map to help humans find information on the web.
 
 AI systems face a different challenge:
 determining which information to trust.
