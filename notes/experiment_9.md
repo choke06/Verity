@@ -65,11 +65,11 @@ partial agreement claims: 8880
 total claims: 10623
 ```
 
-Agreement clearly exists in the graph - it’s not an edge case.
+Agreement signals are clearly present throughout the graph and frequently enough to influence propagation if the graph structure allows it
 
 ## Agreement Weighted Propagation
 
-We adapted the propagation algorithm such that claim support is now a sum:
+We adapted the propagation algorithm such that claim support is scaled by agreement:
 
 ```text
 claim_support =
@@ -150,4 +150,4 @@ While Experiment 8 established that connectivity plays a key role in credibility
 
 Although agreement is incorporated into the calculation, it is secondary to graph structure, largely because so few claims are supported by multiple overlapping sources in our current sparse dataset.
 
-It’s possible that on a more densely populated, argument-rich graph, the agreement mechanism would show more influence; that’s the next big question for the verifier.
+This could mean that the current verifier is still primarily a connectivity verifier rather than an agreement verifier. It’s possible that on a more densely populated, argument-rich graph, the agreement mechanism would show more influence. I'd say that’s the next big question for the verifier.
