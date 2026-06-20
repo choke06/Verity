@@ -178,11 +178,11 @@ The verifier again never left the starting source.
 
 It appears the behavior is the same and matches the toy graph almost exactly.
 
-The Verifier is not penalizing HP and Lenovo specifically.
+It is important to note that the verifier is not penalizing HP and Lenovo specifically.
 
 They are simply at a disconnected position within the graph.
 
-The Verifier only has information about how to navigate the graph structure.
+The verifier only has information about how to navigate the graph structure.
 
 It is not aware of what is a manufacturer, retailer, government source, product category, etc.
 
@@ -190,7 +190,7 @@ The result will be the same from anywhere within any such isolated component as 
 
 This seems like the explanation for Experiment 6 then - it appears to be a consequence of graph topology, not explicit judgment about a source's quality itself.
 
-It is important to realize, however, that isolated claims don't mean incorrect ones, just as a widely shared claim does not mean it is correct.
+An isolated claim does not mean it is an incorrect one, just as a widely shared claim does not mean it is correct.
 
 The graph only captures whether or not information connects to other information.
 
