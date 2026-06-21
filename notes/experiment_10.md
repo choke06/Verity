@@ -1,5 +1,7 @@
 # Experiment 10 - Synthetic Agreement Graph
 
+Date: June 21, 2026
+
 ## Hypothesis
 
 Experiment 9 revealed that increasing agreement weighting changed the order of credibility rankings by only small amounts.
