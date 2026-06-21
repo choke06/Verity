@@ -275,9 +275,7 @@ def run_until_convergence(
         iteration += 1
 
     print()
-    print(
-        "maximum iterations reached"
-    )
+    print("maximum iterations reached")
 
     return credibility
 
@@ -410,15 +408,11 @@ def print_bottom_sources(
 def main():
 
     print()
-    print(
-        "loading assertion graph..."
-    )
+    print("loading assertion graph...")
     print()
 
     print()
-    print(
-        "loading agreement scores..."
-    )
+    print("loading agreement scores...")
 
     agreement_scores = (
         load_agreement_scores()
@@ -472,9 +466,7 @@ def main():
     )
 
     print()
-    print(
-        "running uniform initialization..."
-    )
+    print("running uniform initialization...")
 
     uniform = initialize_uniform(
         source_ids
@@ -488,9 +480,7 @@ def main():
     )
 
     print()
-    print(
-        "running random initialization..."
-    )
+    print("running random initialization...")
 
     random_scores = initialize_random(
         source_ids
@@ -522,28 +512,19 @@ def main():
 
     print()
 
-    print(
-        "maximum difference between "
-        "initializations:"
-    )
+    print("maximum difference between ""initializations:")
 
-    print(
-        f"{difference:.12f}"
-    )
+    print(f"{difference:.12f}")
 
     print()
 
     if difference < 1e-8:
 
-        print(
-            "same fixed point reached"
-        )
+        print("same fixed point reached")
 
     else:
 
-        print(
-            "different solutions found"
-        )
+        print("different solutions found")
 
     print()
 
