@@ -1,6 +1,6 @@
-# Experiment 10 - Synthetic (Controlled) Agreement Graph
+# Experiment 10 - Synthetic Agreement Graph
 
-## Question
+## Hypothesis
 
 Experiment 9 revealed that increasing agreement weighting changed the order of credibility rankings by only small amounts.
 
@@ -16,19 +16,23 @@ B -> X
 C -> Y
 ```
 
-Agreement Scores
+## Agreement Scores
 
+```text
 X = 1.00
 
 Y = 0.50
+```
 
-Result:
+## Result
 
+```text
 A 0.50
 
 B 0.50
 
 C 0.00
+```
 
 ## Observation
 
