@@ -29,7 +29,7 @@ Sources and claims form a bipartite graph. Each edge represents a source asserti
 </p>
 The idea is to see whether credibility can emerge naturally through repeated movement across the graph.
 
-One way you can think of it is a verifier traveling through the network at random: starting on one source then moving to the set of claims it asserts, then from those claims to it's other supporting sources, over and over again. Sources that consistently connect to credible claims will get revisited more often. Claims supported by credible sources also get revisited more often.
+One way you can think of it is a verifier traveling through the network at random: starting on one source then moving to the set of claims it asserts, then from those claims to its other supporting sources, over and over again. Sources that consistently connect to credible claims will get revisited more often. Claims supported by credible sources also get revisited more often.
 
 The current implementation focuses on product specifications as initial training data. However, the underlying framework is not specific to e-commerce. Any domain involving sources, claims, and disagreement can potentially be modeled using the same graph structure.
 
@@ -37,7 +37,7 @@ The current implementation focuses on product specifications as initial training
 
 Verity does not interpret the strings or meaning of claims.
 
-Instead, the engine operates purely on the natural graph structure, receiving source identifiers, claim identifiers, and the assertion relationships between them. This means the claim data has already been parsed, normalized, deduplicated, canonicalized, and otherwise pre-processed prior to being input to the graph. 
+Instead, the engine operates purely on the graph structure, receiving source identifiers, claim identifiers, and the assertion relationships between them. This means the claim data has already been parsed, normalized, deduplicated, canonicalized, and otherwise pre-processed prior to being input to the graph. 
 
 For example, a client application may determine that:
 
