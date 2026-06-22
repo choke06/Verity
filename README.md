@@ -49,6 +49,8 @@ Version 5.3
 
 all represent the same underlying claim.
 
+Verity never sees those strings.
+
 It only sees that multiple sources asserted the same claim identifier and computes credibility from the resulting network structure.
 
 # Stack
