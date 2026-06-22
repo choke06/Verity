@@ -37,7 +37,7 @@ The current implementation focuses on product specifications as initial training
 
 Verity does not interpret the strings or meaning of claims.
 
-Instead, the engine operates purely on the graph stucture, receiving source identifiers, claim identifiers, and the assertion relationships between them. This means the claim data has already been parsed, normalized, deduplicated, canonicalized, and otherwise pre-processed prior to being input to the graph. 
+Instead, the engine operates purely on the natural graph structure, receiving source identifiers, claim identifiers, and the assertion relationships between them. This means the claim data has already been parsed, normalized, deduplicated, canonicalized, and otherwise pre-processed prior to being input to the graph. 
 
 For example, a client application may determine that:
 
