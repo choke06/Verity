@@ -20,7 +20,7 @@ DB = os.path.join(
 
 
 # Pull the subset of source assertions that
-# participate in the simulated Verity graph.
+# participate in the Verity graph.
 #
 # We intentionally reuse the same attributes
 # and canonicalization pipeline as
