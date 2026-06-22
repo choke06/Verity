@@ -1,4 +1,4 @@
-# Experiment 8 - Isolation Dynamics
+# Experiment 8 - Credibility vs Connectivity
 
 Date: June 18, 2026
 
