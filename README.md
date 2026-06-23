@@ -69,7 +69,7 @@ It only sees that multiple sources asserted the same claim identifier and comput
 
 ## Recent Progress
 
-- Built the first canonical claim graph
+- Built the first experimental credibility graph
 - Built a preprocessing pipeline for graph experiments
 - Measured source overlap across the graph
 - Measured agreement and disagreement between sources
