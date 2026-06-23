@@ -24,6 +24,7 @@ There is a dispute present in `source_claims.csv`.
 
 ```text
 (product_id, attribute)
+```
 
 The graph does not operate directly on source values.
 
