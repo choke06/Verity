@@ -77,7 +77,7 @@ agreement = 0.33
 
 Presently, agreement is still source-independent - all sources contribute equally regardless of their credibility.
 
-Example
+## Example
 
 Product:
 
