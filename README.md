@@ -59,28 +59,25 @@ It only sees that multiple sources asserted the same claim identifier and comput
 - SQLite
 
 ## Current Status of Verity
-
-(As of June 14, 2026)
+(As of June 22, 2026)
 
 ## Dataset
 
-* 24 sources
-* 12,684 canonical claims
-* 13,860 assertions
+24 sources
+2,976 source claims
+1,662 canonical claims
 
-## Recent Results
+## Recent Progress
 
-* Added bidirectional normalization to the propagation step
-* Tested both uniform and random initialization
-* Both initializations converged to nearly the same solution
-* Maximum observed difference after convergence: 4.44e-8
-* Source rankings appear much more balanced than before
-* The propagation scheme now seems relatively stable
-* Most claims are still asserted by only a single source
+Built the first canonical graph
+Measured source overlap
+Measured agreement between sources
+Reduced claim fragmentation through normalization
+Identified remaining data quality issues
 
-## Current Questions
+## Open Questions
 
-* How much does increasing source overlap improve rankings?
-* How should conflicting claims reduce credibility?
-* How can dependence between sources be modeled?
-* Is the graph still too sparse for credibility propagation?
+How should agreement affect credibility?
+How should disagreement affect credibility?
+How should source copying be handled?
+How much overlap is enough?
