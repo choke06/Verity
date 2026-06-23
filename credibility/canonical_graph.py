@@ -43,8 +43,12 @@ GRAPH_ATTRIBUTES = {
 
 # We assign every unique claim a stable hash
 #
-# Sources that assert the same
+# For this agreement experiment,
+# a claim is defined by:
+#
 # (product, attribute, value)
+#
+# Sources that assert the same value
 # end up pointing to the same claim
 def build_hash(
     product_id,
