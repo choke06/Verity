@@ -22,8 +22,8 @@ DB = os.path.join(
 # Load the same subset of source claims
 # used by the graph experiments
 #
-# Keeping the dataset identical allows
-# direct comparison with previous runs
+# We keep the dataset identical for direct
+# comparison with previous runs
 def load_claims():
 
     print()
