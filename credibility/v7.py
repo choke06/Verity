@@ -209,9 +209,7 @@ def run_until_convergence(
         iteration += 1
 
     print()
-    print(
-        "maximum iterations reached"
-    )
+    print("maximum iterations reached")
 
     return credibility
 
@@ -349,7 +347,7 @@ def load_assertion_graph():
         source_names
     )
 
-# agreement weights allows us to
+# agreement weights allow us to
 # discount assertions that
 # disagree with competing
 # values for the same property
