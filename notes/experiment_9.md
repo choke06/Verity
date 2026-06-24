@@ -77,6 +77,49 @@ agreement = 0.33
 
 Presently, agreement is still source-independent - all sources contribute equally regardless of their credibility.
 
+## Ambiguous Source Claims
+
+When performing analysis, some source claims were found to output multiple values for the same property.
+
+For example:
+
+```text
+amazon.com
+
+battery_life_hr
+
+8
+36
+40
+45
+50
+```
+
+These cases are ambiguous because there is no way to infer the correct value without relying on external knowledge.
+
+Rather than selecting a value, ambiguous source claims were removed from the agreement calculations altogether.
+
+A source claim was considered ambiguous if:
+
+```text
+(source_id, product_id, attribute)
+```
+
+contained more than one unique value.
+
+Results:
+
+```text
+source claims loaded: 2976
+removed as ambiguous: 396
+remaining for agreement analysis: 2580
+```
+
+This filtering stage only affects agreement calculations.
+
+The underlying graph remains unchanged, and verifier traversal continues to operate on the full assertions graph.
+
+
 ## Example
 
 Product:
