@@ -4,9 +4,9 @@ Date: June 24, 2026
 
 ## Motivation
 
-The previous propagation algorithm assigned equal influence to each assertion. When a source asserted a claim, its credibility contribution was distributed uniformly among all outgoing assertions regardless of agreement among conflicting claims on the asserted value.
+The previous propagation algorithm assigned equal influence to each assertion. When a source asserted a claim, its credibility contribution was distributed uniformly among all outgoing assertions regardless of if the asserted value agreed with or contradicted competing sources.
 
-This experiment modifies this approach by using an agreement-weighted propagation method. Assertions that agree with a larger proportion of competing sources receive greater influence when spread during propagation, whereas those that are part of a minority will contribute proportionally less support.
+This experiment modifies the approach by using an agreement-weighted propagation method. Assertions that agree with a larger proportion of competing sources receive greater influence when spread during propagation, whereas those that are part of a minority will contribute proportionally less support.
 
 The objective here is to determine if the local agreement information can be introduced without compromising the overall convergence toward a final, stable credibility vector.
 
