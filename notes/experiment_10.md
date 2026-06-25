@@ -45,7 +45,7 @@ The agreement-weighted propagation converged after **37 iterations**.
 
 *Agreement-weighted convergence (early iterations)*
 
-The credibility vector initially changes rapidly as credibility propagates throughout the graph.
+The credibility vector initially changed rapidly as credibility propagated throughout the graph.
 
 ![Agreement-weighted convergence (final iterations)](../images/exp10_convergence_end.png)
 
@@ -61,7 +61,7 @@ The credibility standings determined from agreement-weighted propagation were co
 
 *Largest agreement effects*
 
-We can see that agreement weights induced noticeable differences in the final rankings. Best Buy rose increased most in credibility, while Micro Center and B&H Photo Video decreased furthest. The overall ranks largely held their ground, with other sources showing minimal shifts.
+We can see that agreement weights resulted in noticeable differences in the final rankings. Best Buy increased most in credibility, whereas Micro Center and B&H Photo Video decreased furthest. The overall ranks largely held their ground, with other sources showing minimal shifts.
 
 ### Initialization Independence
 
