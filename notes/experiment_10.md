@@ -1,10 +1,10 @@
-Experiment 10 - Agreement-Weighted Propagation
+# Experiment 10 - Agreement-Weighted Propagation
 
 Date: June 24, 2026
 
-Motivation
+## Motivation
 
-The previous propagation algorithm assigned equal influence to each assertion. Whenever a source asserted a claim, its credibility contribution was distributed uniformly among all outgoing assertions regardless of agreement among conflicting claims on the asserted value.
+The previous propagation algorithm assigned equal influence to each assertion. When a source asserted a claim, its credibility contribution was distributed uniformly among all outgoing assertions regardless of agreement among conflicting claims on the asserted value.
 
 This experiment modifies this approach by using an agreement-weighted propagation method. Assertions that are in accord with a larger percentage of alternative claims provide more support when spread via propagation, while those that are part of a minority will convey proportionately less influence.
 
@@ -35,42 +35,39 @@ The following tests were run:
 
 3.  Random initialization using weighted agreement.
 
-Results
+## Results
 
-# Convergence
+### Convergence
 
 The agreement-weighted propagation converged after **37 iterations**.
 
-Figure 1. Agreement-weighted convergence (early iterations)
-
 ![Agreement-weighted convergence (early iterations)](../images/exp10_convergence_start.png)
 
-Initially, the credibility vector changes rapidly as credibility propagates through the graph.
+*Agreement-weighted convergence (early iterations)*
 
-Figure 2. Agreement-weighted convergence (final iterations)
+The credibility vector initially changes rapidly as credibility propagates throughout the graph.
 
 ![Agreement-weighted convergence (final iterations)](../images/exp10_convergence_end.png)
 
-As seen above, the maximum change between successive iterations of the credibility vector consistently dropped and was within the defined threshold.
+*Agreement-weighted convergence (final iterations)*
 
-# Agreement Effects
+We can observe above the maximum change between successive iterations of the credibility vector consistently dropped and was within the defined threshold.
+
+### Agreement Effects
 
 The credibility standings determined from agreement-weighted propagation were contrasted against a scenario utilizing an otherwise identical propagation algorithm, except that assertions had a standard weight of 1.0 regardless of consensus.
 
-The third image outlines the most substantial fluctuations in source credibility after incorporating agreement weights:
-
-Figure 3. Largest agreement effects
-
 ![Largest agreement effects](../images/exp10_agreement_effects.png)
 
+*Largest agreement effects*
 
 We can see that agreement weights induced noticeable differences in the final rankings. Best Buy rose increased most in credibility, while Micro Center and B&H Photo Video decreased furthest. The overall ranks largely held their ground, with other sources showing minimal shifts.
 
-# Initialization Independence
+### Initialization Independence
 
-We repeated the experiment using random initial credibility scores.
+I repeated the experiment using random initial credibility scores.
 
-Both methods of initialization resulted in almost identical final convergence. This implies agreement-weighted propagation retains previous initial convergence properties.
+Both methods of initialization resulted in almost nearly identical final convergence. This implies agreement-weighted propagation retains previous initial convergence properties.
 
 ## Observations
 
@@ -86,4 +83,4 @@ Going forward, with further attribute normalization, more of the graph will rece
 
 Agreement weighting can only be applied to attributes with deterministic canonicalization rules.
 
-We currently have many attributes that still contain inconsistent textual representations that we cannot yet normalize automatically. Assertions involving these attributes currently receive the default edge weight and therefore do not contribute agreement information. Future work will expand normalization coverage while keeping the underlying propagation algorithm unchanged.
+There are currently many attributes that still contain inconsistent textual representations that we cannot yet normalize automatically. Assertions involving these attributes currently receive the default edge weight and therefore do not contribute agreement information. Future work will expand normalization coverage while keeping the underlying propagation algorithm unchanged.
