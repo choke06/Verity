@@ -61,19 +61,19 @@ The credibility standings determined from agreement-weighted propagation were co
 
 *Largest agreement effects*
 
-We can see that agreement weights induced noticeable differences in the final rankings. Best Buy rose increased most in credibility, while Micro Center and B&H Photo Video decreased furthest. The overall ranks largely held their ground, with other sources showing minimal shifts.
+We can see that agreement weights resulted in noticeable differences in the final rankings. Best Buy increased most in credibility, while Micro Center and B&H Photo Video decreased furthest. The overall ranks largely held their ground, with other sources showing minimal shifts.
 
 ### Initialization Independence
 
-I repeated the experiment using random initial credibility scores.
+I then repeated the experiment using random initial credibility scores.
 
-Both methods of initialization resulted in almost nearly identical final convergence. This implies agreement-weighted propagation retains previous initial convergence properties.
+Both methods of initialization resulted in nearly identical final convergence. This implies agreement-weighted propagation retains previous initial convergence properties.
 
 ## Observations
 
-This experiment shows that agreement information can be incorporated directly into the credibility propagation process while preserving stable convergence.
+This experiment demonstrates that agreement information can be incorporated directly into the credibility propagation process while preserving stable convergence.
 
-The agreement-weighting model caused measurable changes in the final rankings, but without affecting the basic dynamic behavior of the iterative algorithm. I noted that sources that more frequently agreed with competing sources received relatively modest increases in credibility, and conversely, sources that more frequently disagreed experienced corresponding decreases.
+Agreement-weighting caused measurable changes in the final rankings, but without affecting the basic dynamic behavior of the iterative algorithm. I noted that sources that more frequently agreed with competing sources received relatively modest increases in credibility, and conversely, sources that more frequently disagreed experienced corresponding decreases.
 
 These changes were expected given the current state of the dataset. Agreement weights are currently computed only for attributes that support deterministic canonicalization, limiting the proportion of the graph that participates in weighted propagation.
 
@@ -83,4 +83,4 @@ Going forward, with further attribute normalization, more of the graph will rece
 
 Agreement weighting can only be applied to attributes with deterministic canonicalization rules.
 
-There are currently many attributes that still contain inconsistent textual representations that we cannot yet normalize automatically. Assertions involving these attributes currently receive the default edge weight and therefore do not contribute agreement information. Future work will expand normalization coverage while keeping the underlying propagation algorithm unchanged.
+There are currently many attributes that still contain inconsistent textual representations that we cannot yet normalize automatically. Assertions involving these attributes currently receive the default edge weight and therefore do not contribute agreement information. Future work will expand normalization coverage while keeping the underlying propagation algorithm stable.
