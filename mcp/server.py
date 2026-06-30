@@ -3,9 +3,6 @@
 # Experimental MCP interface for Verity
 #
 # The goal is to expose the credibility graph to AI agents
-#
-# Long-term goal:
-# domain-agnostic source credibility infrastructure
 
 
 import sqlite3
