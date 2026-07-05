@@ -1,8 +1,8 @@
 # server.py
 #
-# Experimental MCP interface for Verity
+# Experimental MCP interface for Verity.
 #
-# The goal is to expose the credibility graph to AI agents
+# The goal is to expose credibility inference to AI agents.
 
 
 import sqlite3
@@ -18,7 +18,7 @@ DB = "../verity_v1.db"
 
 def get_db():
 
-    # we must create a fresh connection for each request
+    # create a fresh connection for each request
     # to keep the server simple and stateless
 
     conn = sqlite3.connect(DB)
