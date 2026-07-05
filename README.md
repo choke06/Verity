@@ -39,19 +39,19 @@ Verity operates purely on the graph structure to compute source credibility, rec
 
 For example, a client application may determine that:
 
-# Product specifications
+Product specifications
 ----------------------
 Bluetooth 5.3
 BT 5.3
 Version 5.3
 
-# AI coding agents
+AI coding agents
 ----------------
 Python 3.12
 Python v3.12
 CPython 3.12
 
-# Medical knowledge
+Medical knowledge
 -----------------
 Myocardial infarction
 Heart attack
