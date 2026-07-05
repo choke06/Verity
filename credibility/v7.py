@@ -1,23 +1,25 @@
 # v7.py
 
 import os
-import sqlite3
+import psycopg
 import random
 
 from collections import Counter
 from collections import defaultdict
 
-from canonical_graph import (
+from .canonical_graph import (
     GRAPH_ATTRIBUTES,
     canonicalize
 )
 
 
-DB = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "verity_v1.db"
-)
+def get_db():
+
+    return psycopg.connect(
+        dbname="verity_dev",
+        user="colehoke",
+        host="localhost"
+    )
 
 
 # start every source with equal credibility
@@ -145,10 +147,13 @@ def run_until_convergence(
     credibility,
     agreement_weights,
     tolerance=1e-8,
-    max_iterations=1000
+    max_iterations=1000,
+    return_history=False
 ):
 
     iteration = 0
+
+    history = []
 
     while iteration < max_iterations:
 
@@ -172,8 +177,8 @@ def run_until_convergence(
             credibility
         )
 
-        # measure how much
-        # the vector changed
+        # we measure how much the
+        # credibility vector changed
         maximum_difference = 0.0
 
         for source_id in credibility:
@@ -186,6 +191,10 @@ def run_until_convergence(
             if difference > maximum_difference:
                 maximum_difference = difference
 
+        history.append(
+            maximum_difference
+        )
+
         print(
             f"iteration "
             f"{iteration + 1:>3}   "
@@ -193,8 +202,8 @@ def run_until_convergence(
             f"{maximum_difference:.12f}"
         )
 
-        # stop once the
-        # vector stabilizes
+        # once the vector stops moving
+        # we consider it converged
         if maximum_difference < tolerance:
 
             print()
@@ -204,12 +213,26 @@ def run_until_convergence(
                 f"iterations"
             )
 
+            if return_history:
+                return (
+                    credibility,
+                    history
+                )
+
             return credibility
 
         iteration += 1
 
     print()
-    print("maximum iterations reached")
+    print(
+        "maximum iterations reached"
+    )
+
+    if return_history:
+        return (
+            credibility,
+            history
+        )
 
     return credibility
 
@@ -303,7 +326,7 @@ def compare_rankings(
 # from sqlite
 def load_assertion_graph():
 
-    conn = sqlite3.connect(DB)
+    conn = get_db()
     cursor = conn.cursor()
 
     source_to_claims = defaultdict(set)
@@ -347,13 +370,13 @@ def load_assertion_graph():
         source_names
     )
 
-# agreement weights allow us to
+# agreement weights allows us to
 # discount assertions that
 # disagree with competing
 # values for the same property
 def load_agreement_weights():
 
-    conn = sqlite3.connect(DB)
+    conn = get_db()
     cursor = conn.cursor()
 
     agreement_weights = {}
@@ -522,6 +545,53 @@ def print_bottom_sources(
         )
 
 
+# store final credibility scores
+# so we can compare experiments
+# across graph revisions
+def save_scores(
+    credibility,
+    source_names,
+    filename
+):
+
+    path = os.path.join(
+        os.path.dirname(__file__),
+        filename
+    )
+
+    with open(
+        path,
+        "w",
+        encoding="utf-8"
+    ) as f:
+
+        f.write(
+            "source_id,domain,score\n"
+        )
+
+        for source_id, score in sorted(
+            credibility.items(),
+            key=lambda x: x[1],
+            reverse=True
+        ):
+
+            domain = source_names.get(
+                source_id,
+                str(source_id)
+            )
+
+            f.write(
+                f"{source_id},"
+                f"{domain},"
+                f"{score:.12f}\n"
+            )
+
+    print()
+    print(
+        f"saved scores to {path}"
+    )
+
+
 def main():
 
     print()
@@ -589,6 +659,12 @@ def main():
         claim_to_sources,
         uniform,
         agreement_weights
+    )
+
+    save_scores(
+        uniform,
+        source_names,
+        "v7_scores.csv"
     )
 
     print()
