@@ -10,8 +10,8 @@ As AI systems and autonomous agents make decisions and execute complex tasks usi
 
 Source credibility and claim credibility depend on each other recursively.
 
-A source becomes credible if it consistently supports true claims.
-A claim becomes credible if it is supported by credible sources.
+A source becomes more credible if it consistently supports true claims.
+A claim becomes more credible if it is supported by credible sources.
 
 Without external ground truth, we often rely on agreement between sources as evidence of truth.
 
@@ -35,9 +35,9 @@ One way you can think of it is a verifier traveling through the network at rando
 
 Verity does not interpret the strings or meaning of claims. The current implementation uses product specifications as a development dataset because they provide large-scale conflicting information from independent sources. In production, clients construct their own credibility graphs from any domain.
 
-Verity operates purely on the graph structure to compute source credibility, receiving only source identifiers, claim identifiers, and the assertion relationships between them. This means the graph has already been parsed, normalized, deduplicated, canonicalized, and otherwise pre-processed before it is received by the system.
+Verity operates purely on graph structure, receiving only source identifiers, claim identifiers, and the assertion relationships between them. This means the graph has already been parsed, normalized, deduplicated, canonicalized, and otherwise pre-processed before it is ingested by Verity.
 
-For example, a client application may determine that:
+For example, a client application may determine that the following values all represent the same underlying claim:
 
 ```text
 Product specifications
@@ -58,8 +58,6 @@ Myocardial infarction
 Heart attack
 Acute MI
 ```
-
-all represent the same underlying claim.
 
 # Stack
 
