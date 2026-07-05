@@ -49,8 +49,8 @@ Version 5.3
 AI coding agents
 
 Python 3.12
+Python 3.12.0
 Python v3.12
-CPython 3.12
 
 Medical knowledge
 
