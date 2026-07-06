@@ -27,9 +27,8 @@ Sources and claims form a bipartite graph. Each edge represents a source asserti
 <p align="center">
   <em>An animation of credibility propagation running on a small network of sources and claims. Node size represents inferred credibility, while edges represent assertions.</em>
 </p>
-The idea is to see whether credibility can emerge naturally through repeated movement across the graph.
 
-Computing credibility is iterative and propagates over the graph. At each iteration step, each source distributes its credibility across all claims it asserts, and each claim in turn redistributes its support that it accumulated back to the asserting sources. The iterations repeat until the credibility vector reaches a steady state fixed point. Agreement weighting influences how much support each assertion contributes.
+Computing credibility is iterative and propagates across the graph. At each iteration step, each source distributes its credibility across all claims it asserts, and each claim in turn redistributes its support that it accumulated back to the asserting sources. The iterations repeat until the credibility vector reaches a steady state fixed point. Agreement weighting influences how much support each assertion contributes.
 
 # Content-Agnostic Core
 
