@@ -2,7 +2,7 @@
 
 Can credibility emerge naturally from repeated propagation across a graph of sources and claims?
 
-Suppose a source supports one or more claims. Those claims are also supported by other sources, which then support other claims, and so on. We call this support an "assertion".
+Suppose a source asserts one or more claims. Those claims are also asserted by other sources, which then assert other claims, and so on. These "assertions" create a connection between a source and a claim.
 
 Can stable credibility be assigned purely from the graph structure alone?
 
@@ -15,6 +15,9 @@ The structure can be represented as a bipartite graph:
 $$
 G = (S, C, E)
 $$
+
+where S is the set of sources, C is the set of claims, and E is the set of
+assertions which link sources to the claims they assert.
 
 One iteration of propagation can be defined as:
 
