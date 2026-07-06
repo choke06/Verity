@@ -1,33 +1,28 @@
 # Propagation Notes
 
-Can credibility emerge naturally from repeated movement across a graph of sources and claims?
+Can credibility emerge naturally from repeated propagation across a graph of sources and claims?
 
 Suppose a source supports one or more claims. Those claims are also supported by other sources, which then support other claims, and so on.
 
-What parts of the network does the process keep returning to over time?
+Can stable credibility be assigned purely from the graph structure alone?
 
 The structure can be represented as a bipartite graph:
 
 <p align="center">
-  <img src="../images/source_claim_graph.png" width="600">
+  <img src="../images/claim_graph2.png" width="600">
 </p>
 
 $$
 G = (S, C, E)
 $$
 
-Where:
-* $S$ = sources
-* $C$ = claims
-* $E$ = assertions
+One iteration of propagation can be defined as:
 
-One possible traversal process:
+- sources distribute credibility to claims
+- claims redistribute support to sources
+- repeat until convergence
 
-- source -> claim
-- claim -> supporting source
-- repeat
-
-Maybe some regions of the graph reinforce themselves more strongly than others.
+Some regions of the graph may reinforce themselves more strongly than others.
 
 I'm currently experimenting with recursive update ideas like:
 
