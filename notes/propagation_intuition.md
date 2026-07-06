@@ -12,13 +12,6 @@ The structure can be represented as a bipartite graph:
   <img src="../images/credibility_graph2.png" width="600">
 </p>
 
-$$
-G = (S, C, E)
-$$
-
-where S is the set of sources, C is the set of claims, and E is the set of
-assertions which connect sources to the claims they assert.
-
 One iteration of propagation can be defined as:
 
 - sources distribute credibility to claims
