@@ -4,8 +4,6 @@ Can credibility emerge naturally from repeated propagation across a graph of sou
 
 Let's suppose a source asserts one or more claims. Those claims are in turn asserted by some other sources, which in turn assert other claims, and so on. These "assertions" create a connection between a source and a claim.
 
-Can stable credibility emerge purely from the graph structure?
-
 We can visualize the structure as a bipartite graph:
 
 <p align="center">
