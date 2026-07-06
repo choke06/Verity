@@ -2,7 +2,7 @@
 
 Can credibility emerge naturally from repeated propagation across a graph of sources and claims?
 
-Suppose a source supports one or more claims. Those claims are also supported by other sources, which then support other claims, and so on. We call this support an "assertion" in the system.
+Suppose a source supports one or more claims. Those claims are also supported by other sources, which then support other claims, and so on. We call this support an "assertion".
 
 Can stable credibility be assigned purely from the graph structure alone?
 
