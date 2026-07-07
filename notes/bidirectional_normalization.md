@@ -1,6 +1,6 @@
 # Experiment 5 - Bidirectional Normalization
 
-**Date:** June 14, 2026
+June 14, 2026
 
 Experiment 4 demonstrated the graph consistently converges to a fixed point for both uniform and random initialization.
 
