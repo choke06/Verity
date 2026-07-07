@@ -1,0 +1,13 @@
+\section{Conclusion}
+
+The emergence of the Agentic Web creates a growing need for scalable credibility inference techniques which will not depend on constant external evaluation. In this paper, we have proposed the Verity method for calculating source credibility as the property of an information network in the form of a graph. Instead of relying on trusted reference data or human verification, Verity estimates the credibility directly from the relationships between sources and claims.
+
+Our iterative propagation approach propagates credibility between the source and claim nodes until a stable credibility distribution is reached. Through a series of experiments, we have shown that the proposed algorithm is consistent and stable, that the credibility distribution does not depend on the chosen initialization and that the graph connectivity plays an important role in the credibility inference process. Moreover, we have proven that the improvement of the graph connectivity through the proper representation of claims and agreement-weighted propagation provides additional structural information that is useful for credibility inference.
+
+We believe that credibility inference is inherently a graph problem. Through a representation of sources, claims, and assertions, Verity provides a framework through which we calculate credibility based on the properties of the graph directly from the structure of the information network. We hope this will lay the groundwork for credible inference as a core capability of future autonomous information systems.
+
+\subsection{Future Work}
+
+While the proposed framework provides the groundwork for graph-based credibility inference, there is still much research to be done. Specifically, agreement among several sources does not automatically mean independence, since information may propagate among sources. Thus, explicitly modeling source dependencies becomes an important direction for future work.
+
+Graph-based credibility inference will be further developed as autonomous information systems keep improving and become more dependent on information collected from multiple independent sources.
