@@ -1,8 +1,8 @@
-# Experiment 7 - Canonical Claim Migration
+# Claim Redefinition
 
-Date: June 17, 2026
+June 17, 2026
 
-With Experiment 6, I found that nearly all (92%) of the claims were supported by a single source, indicating that claims may have been too specific, creating an overly sparse graph.
+I found that nearly all (92%) of the claims were supported by a single source, indicating that claims may have been too specific, creating an overly sparse graph.
 
 The previous definition of claim was:
 
