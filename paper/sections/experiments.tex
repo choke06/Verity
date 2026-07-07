@@ -1,0 +1,64 @@
+\section{Experimental Evaluation}
+
+The proposed algorithm is studied by performing several experiments to explore its properties such as convergence, robustness, and behavior under various graph structures. Unless stated otherwise, all experiments have been performed on the Verity credibility graph presented in Section~2.
+
+\subsection{Convergence Behavior}
+
+First, we study the convergence properties of the proposed propagation algorithm to determine whether it converges to a stable credibility distribution. In order to achieve this, we initialize all sources with equal starting credibility and apply the propagation algorithm described in Section~3 iteratively until the convergence condition is met. We measure the maximum absolute difference between the source credibility vectors of two consecutive iterations during the propagation process.
+
+We can see in Figure 2 that the maximum difference in source credibility values diminishes at each subsequent iteration up to the point where the convergence condition is met.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/convergence.png}
+    \caption{Maximum change between consecutive source credibility vectors during propagation. The credibility vector converges after 37 iterations.}
+    \label{fig:convergence}
+\end{figure}
+
+\subsection{Initialization Independence}
+
+Having demonstrated convergence of the propagation algorithm, we now explore whether the resulting credibility distribution is independent of the initial distribution. To perform this analysis, we test two methods of initialization. The first method assigns each source equal initial credibility. The second method gives each source a random credibility value, which is then normalized.
+
+We observe that, despite starting at different points, both methods lead to the same credibility distribution. This suggests that the converged solution may be independent of the initial distribution. The resulting credibility distribution is therefore stable and consistent.
+
+\subsection{Graph Connectivity}
+
+Having explored the convergence properties of the propagation algorithm, we now turn our attention to the effect that graph connectivity has on credibility propagation. Since the process of credibility propagation occurs alongside assertion edges between source nodes and their claims, graph connectivity impacts which sources can propagate their credibility to one another.
+
+For the purpose of studying the dynamics of this phenomenon, we first consider the toy graph shown in Figure~\ref{fig:connectivity}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.82\linewidth]{figures/connectivity.png}
+    \caption{Toy credibility graph consisting of two connected components. Sources $A$ and $B$ share claims $C1$ and $C2$, while source $D$ is isolated through claims $C3$ and $C4$. Credibility propagates only within connected components.}
+    \label{fig:connectivity}
+\end{figure}
+
+It turns out that credibility propagates only among the connected components of the graph. Sources disconnected from the rest of the network do not receive credibility from outside and thus converge independently of the rest of the graph.
+
+This example clearly shows that graph connectivity plays an important part in credibility inference. The degree to which the sources share claims determines the pattern of credibility propagation across the network.
+
+\subsection{Claim Representation}
+
+In view of the above observations regarding the effect of graph connectivity on credibility propagation, let’s examine the effects that the choice of representation of claims has on the graph structure. As the credibility graph is constructed from the set of claims and assertions, the way claims are represented affects the graph structure in a significant way.
+
+In particular, initially, claims were considered as unique combinations made up of an entity, its attribute, and the observed value of the attribute. While such a representation kept track of all observed values, it led to a highly disconnected graph in which many claims were asserted by only one source. Therefore, the credibility propagation was restricted to small connected components of the graph.
+
+To address this problem, we redefine a claim as an ordered pair of the entity and attribute alone. Using this definition, multiple sources asserting different values for the same attribute get connected through a common claim node instead of being kept separate as distinct nodes.
+
+We find this way of representing claims causes a significant increase in the connectivity of the graph. Credibility can now spread through a larger part of the graph. Consequently, conflicting assertions form a single inference path, thus allowing us to infer the credibility from the graph structure as a whole.
+
+\subsection{Agreement-Weighted Propagation}
+
+After improving the connection of our credibility graph, we explore whether the propagation algorithm can exploit the level of agreement between contradicting assertions. In the original propagation algorithm, all the assertions carried equal influence during the credibility propagation regardless of the popularity of the asserted value.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\linewidth]{figures/agreement_weights.png}
+    \caption{Agreement-weighted propagation. Four sources assert competing values for the same claim. Assertions supporting the most frequently asserted value receive greater propagation weight than assertions supporting less common values.}
+    \label{fig:agreement}
+\end{figure}
+
+This is where agreement-weighting comes into play. The assertions on each claim are weighted depending on the percentage of the sources asserting that particular value. Assertions which support more popular values are given higher weights compared to those which assert rare values, as pictured in Figure~\ref{fig:agreement}.
+
+We have seen that using agreement weighting enables us to incorporate local agreement information into the propagation process while retaining the convergence properties of the algorithm. As opposed to the original process where all the assertions were treated equally, we are now considering the distribution of the competing values on the same claim.
