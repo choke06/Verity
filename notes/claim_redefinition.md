@@ -21,7 +21,7 @@ Best Buy: screen_brightness = 250 nits
 
 Both created two different claim nodes for "screen_brightness" for that product, even when referring to the same product attribute.
 
-Thus, our new definition of a claim was:
+Thus, our new definition of a claim became:
 
 ```text
 claim = (product_id, canonical_attribute)
