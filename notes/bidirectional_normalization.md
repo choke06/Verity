@@ -1,8 +1,8 @@
-# Experiment 5 - Bidirectional Normalization
+# Bidirectional Normalization
 
 June 14, 2026
 
-Experiment 4 demonstrated the graph consistently converges to a fixed point for both uniform and random initialization.
+The propagation algorithm consistently converges to a fixed point for both uniform and random initialization.
 
 I've noted that the ranking results revealed a hidden problem. Even after source degree normalization, some sources are still capable of consuming all credibility due to the graph structure.
 
