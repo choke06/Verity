@@ -1,16 +1,11 @@
 # MCP Interface
 
-Verity exposes an experimental MCP server that allows AI agents
-to query the credibility graph.
+Verity is the credibility layer for AI agents.
 
-If Search provided a map to help humans find information on the web, AI systems face a different challenge:
+Verity exposes an experimental MCP server that computes source credibility from a graph of sources and claims.
+
+If Search helped humans find information on the web, AI systems face a different challenge:
 determining which information to trust.
-
-The current implementation focuses on e-commerce product specifications as a
-real-world testing ground but the interface itself is domain agnostic.
-
-Long-term goal:
-build trust infrastructure for how AI systems evaluate and verify information.
 
 Example tools:
 
