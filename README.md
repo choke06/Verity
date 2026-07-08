@@ -19,7 +19,7 @@ We typically rely on agreement between sources as evidence of truth. But, if Sou
 
 # Approach
 
-Sources and claims form a bipartite graph. Each edge represents a source asserting a claim. Verity treats information as an interconnected network instead of a collection of independent observations.
+Sources and claims form a bipartite graph. Each edge represents a source asserting a claim. Verity models information as an interconnected network instead of a collection of independent observations.
 <p align="center">
   <img src="images/credibility_animation.gif" width="520">
 </p>
