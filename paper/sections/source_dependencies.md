@@ -20,7 +20,7 @@ Let's suppose Source B depends on Source A.
 
 In that case, the information asserted by Source B should typically be more completely contained within the information asserted by Source A than vice versa.
 
-This directional asymmetry of the relationship could, perhaps, be used to infer the dependency that does not require introducing explicit citation or metadata.
+This directional asymmetry of the relationship could, perhaps, be used to infer the dependency that does not require introducing explicit citation or metadata. Illustrated below is the type of source-claim structure that motivates this hypothesis.
 
 ![Example graph](../../images/dependency_propagation.png)
 
