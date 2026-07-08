@@ -18,9 +18,87 @@ Is there a way to determine source dependencies based exclusively on the source-
 
 Let's suppose Source B depends on Source A.
 
-In that case, the information asserted by Source B should typically be explained better by the information asserted by Source A more than vice versa.
+In that case, the information asserted by Source B should typically be more completely contained within the information asserted by Source A than vice versa.
 
 This directional asymmetry of the relationship could, perhaps, be used to infer the dependency that does not require introducing explicit citation or metadata.
+
+## Thought Experiments
+
+First, let's test the ability of directional inclusion asymmetry to distinguish source dependencies from independent agreement based only on the graph structure. There are a couple different potential cases:
+
+### Case 1 - Perfect Copying
+
+Source A:
+
+{1, 2, 3, 4, 5}
+
+Source B:
+
+{1, 2, 3, 4, 5}
+
+Expected outcome:
+
+- The two sources appear structurally identical.
+- A dependency likely exists.
+- The direction of the dependency cannot be determined from graph structure alone.
+- The graph cannot distinguish between:
+  - Source A copied Source B.
+  - Source B copied Source A.
+  - Both copied a hidden third source.
+
+### Case 2: Partial Copying
+
+Source A:
+
+{1, 2, 3, 4, 5}
+
+Source B:
+
+{1, 2, 3}
+
+Expected outcome:
+
+- All of Source B's assertions have been made by Source A too.
+- Source B is a proper subset of Source A.
+- Source A only partially explains Source B in the reverse order.
+- This is why directional asymmetry occurs and supports the hypothesis.
+
+### Case 3: Independent Agreement
+
+Source A:
+
+{1, 2, 3, 4, 5}
+
+Source B:
+
+{2, 4, 6, 8}
+
+Expected outcome:
+
+- There is agreement present between the two independent sources on some claims.
+- The hypothesis cannot conclude a dependency relationship that does not exist.
+- Graph alone may or may not distinguish this case; it is yet to be determined.
+
+### Case 4: Common Upstream Source
+
+Source C:
+
+{1, 2, 3, 4, 5}
+
+Source A:
+
+{1, 2, 3}
+
+Source B:
+
+{1, 2, 4}
+
+Expected outcome:
+
+- Information on both sources roots from a common upstream source.
+- None of the sources depend on each other.
+- In cases where Source C is not in the graph, this scenario cannot be distinguished from copying.
+- This is one of the limitations of a graph-based method.
 
 ## Current Research Questions
 
@@ -28,4 +106,4 @@ This directional asymmetry of the relationship could, perhaps, be used to infer 
 - Is there a way or method to figure out the dependencies purely based on graph structure?
 - How do we incorporate inferred dependencies into credibility propagation?
 - How do we model partial dependencies?
-- How do we handle common upstream source?
+- How do we handle common upstream sources?
