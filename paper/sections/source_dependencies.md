@@ -24,7 +24,7 @@ This directional asymmetry of the relationship could, perhaps, be used to infer 
 
 ## Thought Experiments
 
-First, let's test the ability of directional inclusion asymmetry to distinguish source dependencies from independent agreement based only on the graph structure. There are a couple different potential cases:
+First, let's test the ability of directional inclusion asymmetry to distinguish source dependencies from independent agreement based only on the graph structure. There are a couple different cases:
 
 ### Case 1 - Perfect Copying
 
