@@ -1,6 +1,6 @@
 # Project Verity
 
-A credibility inference system for networks of conflicting claims. Verity models the relationship between sources and claims as a graph to estimate the credibility of every source and claim.
+A credibility inference system for networks of conflicting claims. Verity models sources and claims as a bipartite graph to infer the credibility of every source and claim.
 
 # Problem
 
@@ -28,7 +28,7 @@ Sources and claims form a bipartite graph. Each edge represents a source asserti
   <em>An animation of credibility propagation running on a small network of sources and claims. Node size represents inferred credibility, while edges represent assertions.</em>
 </p>
 
-Credibility is computed iteratively across the graph. At each iteration step, each source distributes its credibility across all claims it asserts, and each claim in turn redistributes its support that it accumulated back to the asserting sources. The iterations repeat until the credibility vector reaches a fixed point. Agreement weighting influences how much support each assertion contributes.
+Credibility is computed iteratively across the graph. At each iteration step, each source distributes its credibility across all claims it asserts, and each claim in turn redistributes its support it has accumulated back to the asserting sources. The iterations repeat until the credibility vector reaches a fixed point. Agreement weighting influences how much support each assertion contributes.
 
 # Content-Agnostic Core
 
@@ -65,7 +65,7 @@ Medical knowledge:
   
 ## Current Status of Verity
 
-Verity is an active research project exploring whether source credibility can be inferred solely based on graph structure.
+Verity is an active research project exploring whether source credibility can be inferred solely from graph structure.
 
 Currently present in the repository:
 
@@ -79,8 +79,8 @@ Current area of research focuses on modeling source dependencies to ensure that 
 
 ## AI Integration
 
-Verity is researching graph-based source credibility inference as the foundation for autonomous AI systems.
+Verity is researching graph-based source credibility inference for autonomous AI systems.
 
-Modern AI agents are capable of retrieving vast amounts of information, but still lack a native mechanism for reasoning about the credibility of information. This becomes problematic as these agents become integrated into everyday decision-making and act on information on behalf of users.
+Modern AI agents are capable of retrieving vast amounts of information at scale, but still lack a native mechanism for reasoning about the credibility of information. This becomes problematic as these agents become integrated into everyday decision-making and act on information on behalf of users.
 
-The goal is to expose the Verity inference engine through an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server so that AI agents can incorporate information credibility natively in their reasoning.
+The goal is to expose the Verity inference engine through an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server so that AI agents can incorporate credibility inference directly into their reasoning process.
