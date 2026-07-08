@@ -22,7 +22,7 @@ In that case, the information asserted by Source B should typically be more comp
 
 This directional asymmetry of the relationship could, perhaps, be used to infer the dependency that does not require introducing explicit citation or metadata.
 
-![Example graph](../../images/source_dependency_example.png)
+![Example graph](../../images/dependency_propagation.png)
 
 *Illustrative source-claim graph used to reason about source dependencies.*
 
