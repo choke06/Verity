@@ -102,7 +102,7 @@ Expected outcome:
 
 ## Directional Inclusion Asymmetry (Experiment 1)
 
-One of the things I wanted to see right away was if direction inclusion itself contains any structural signal without parameters.
+One of the things I wanted to see right away was if directional inclusion itself contains any structural signal without parameters.
 
 To do that, I constructed for each source the set of assertions:
 
@@ -141,7 +141,7 @@ A perfect copy cannot be distinguished from a hidden common parent source, and v
 The next step is to figure out whether directional inclusion will continue as a stand-alone measure or becomes one of multiple signals apart of a broader dependency model.
 
 
-## Current Research Questions
+## Open Questions
 
 - How is this best modeled mathematically / what concept fits best?
 - Is there a way or method to figure out the dependencies purely based on graph structure?
