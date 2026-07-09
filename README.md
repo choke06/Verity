@@ -79,8 +79,8 @@ Main area of research right now focuses on [modeling source dependencies](resear
 
 ## AI Integration
 
-Verity explores how graph-based source credibility inference can become accessible and simplified for autonomous AI systems.
+Verity explores how credibility inference can become accessible and simplified for autonomous AI systems.
 
-Modern AI agents are capable of retrieving vast amounts of information at scale, but still lack a native mechanism for reasoning about the underlying credibility of information. This becomes problematic as these agents become integrated into everyday decision making and act on information on behalf of users.
+Modern AI agents are capable of retrieving vast amounts of information at scale, but still lack a native mechanism for reasoning about the underlying credibility of information. Methods for  This becomes problematic as these agents become integrated into everyday decision making and act on information on behalf of users.
 
-The mission is to make the Verity credibility inference engine accessible through an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server so that AI systems can incorporate credibility inference directly into their reasoning process.
+The mission is to make the Verity credibility inference engine accessible through an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server so that AI systems can seamlessly incorporate credibility inference directly into their reasoning process.
