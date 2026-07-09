@@ -65,9 +65,9 @@ Medical knowledge:
   
 ## Current Status
 
-Verity is an active research project exploring how source credibility can be inferred solely from graph structure.
+Verity is an active research project focused on evaluating source credibility based on the graph structure of an information network.
 
-Feel free to explore the current repo contents:
+Feel free to explore the repo contents:
 
 - Credibility propagation algorithm + reference implementation
 - Research paper draft with figures
@@ -75,7 +75,7 @@ Feel free to explore the current repo contents:
 - Graph structure example
 - Sketches of initial design
 
-Main area of research right now focuses on [modeling source dependencies](research/source_dependencies.md) to ensure that copied information contributes less evidence than independent agreement.
+Main area of research currently focuses on [modeling source dependencies](research/source_dependencies.md) to ensure that copied information contributes less evidence than independent agreement.
 
 ## AI Integration
 
