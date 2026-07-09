@@ -63,7 +63,7 @@ Medical knowledge:
 - Python
 - PostgreSQL
   
-## Current Status of Verity
+## Current Status
 
 Verity is an active research project exploring how source credibility can be inferred solely from graph structure.
 
