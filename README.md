@@ -4,7 +4,7 @@ A graph-based credibility inference system for networks of conflicting claims. V
 
 # Problem
 
-As artificial intelligence systems and autonomous agents reason and execute complex tasks across digital environments using information collected from many sources, evaluating the credibility of information becomes highly important.
+As AI systems, such as large language models (LLMs) and autonomous agents, reason and execute complex tasks across digital environments using information collected from many sources, evaluating the credibility of this information becomes highly important.
 
 # Research Challenge
 
@@ -15,7 +15,7 @@ A claim becomes more credible if it is supported by credible sources.
 
 When an agent scrapes data from 50 different websites, how do we know who to trust?
 
-We typically rely on agreement between sources as evidence of truth. But, if Source A and Source B agree, is it really agreement? Or did Source B just scrape and copy its data from Source A?
+We typically rely on agreement between sources as evidence of truth. But, if Source A and Source B agree, is it really agreement? Or did Source B just copy its data from Source A?
 
 # Approach
 
@@ -83,4 +83,4 @@ Verity explores how graph-based source credibility inference can become accessib
 
 Modern AI agents are capable of retrieving vast amounts of information at scale, but still lack a native mechanism for reasoning about the underlying credibility of information. This becomes problematic as these agents become integrated into everyday decision making and act on information on behalf of users.
 
-The goal is to expose the Verity inference engine through an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server so that AI agents can incorporate credibility inference directly into their reasoning process.
+The mission is to make the Verity credibility inference engine accessible through an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server so that AI systems can incorporate credibility inference directly into their reasoning process.
