@@ -120,7 +120,7 @@ After computing the top-ranked pairs, I wrote an inspection tool to manually com
 
 In addition, it became clear after analyzing the shared assertions that the disagreements were not random, but rather, were conflicting specifications for the same product.
 
-A number of high-ranking source pairs quickly seemed to make sense. ### Results
+### Results
 
 A number of high-ranking source pairs quickly seemed to make sense.
 
