@@ -79,7 +79,7 @@ Main area of research currently is [modeling source dependencies](research/sourc
 
 # Vision
 
-Verity explores how credibility inference can become accessible and simplified for AI systems.
+Verity explores how credibility inference can be made accessible and simplified for AI systems.
 
 Modern AI agents are capable of retrieving vast amounts of information at scale, but still lack a native mechanism for reasoning about the underlying credibility of information. This becomes problematic as these agents become integrated into everyday decision making and act on information on behalf of users.
 
