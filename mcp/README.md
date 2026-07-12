@@ -2,7 +2,7 @@
 
 Verity exposes an experimental MCP server that enables AI agents to evaluate the credibility of information.
 
-The server computes credibility scores using Verity's inference engine and returns structured credibility results through the emerging Model Context Protocol (MCP).
+The server computes credibility scores using Verity's inference engine and returns structured credibility results through the emerging [Model Context Protocol (MCP)](https://modelcontextprotocol.io).
 
 Example tools:
 
