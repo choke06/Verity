@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+
+title: Verity
+
+message: >
+  If you use Verity in your research, please cite this software.
+
+type: software
+
+authors:
+  - family-names: Hoke
+    given-names: Cole
+
+repository-code: https://github.com/cole-h06/Verity
+
+url: https://github.com/cole-h06/Verity
+
+license: MIT
+
+abstract: >
+  Verity is a graph-based credibility inference engine for information
+  networks. It models sources and claims as a bipartite graph to infer
+  the credibility of every source and claim.
