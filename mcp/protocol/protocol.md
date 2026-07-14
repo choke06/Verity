@@ -13,11 +13,11 @@ This document describes the responsibilities and guarantees required by the inte
 This document uses the following terms:
 
 - Source: The origin making one or more claims.
-- Claim: A structured statement about some entity.
-- Assertion: The link between sources and claims.
-- Credibility Graph: A graph of sources, claims, and assertions.
+- Claim: A structured piece of information about some entity.
+- Assertion: The relationship between a source and a claim.
+- Credibility Graph: A bipartite graph composed of sources, claims, and assertions.
 - Client: Software that constructs and submits graph updates.
-- Verity Deployment: The self-hosted or cloud-hosted implementation of the Verity inference engine.
+- Verity Deployment: A self-hosted or cloud-hosted implementation of the Verity inference engine.
 
 ## 3. Design Goals
 
