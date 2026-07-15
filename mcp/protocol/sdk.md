@@ -2,6 +2,7 @@
 
 ## 1. Introduction
 - Purpose of the SDK
+- Scope
 
 ## 2. Design Goals
 - Minimal integration effort
@@ -9,40 +10,45 @@
 - Deterministic
 - Language independent
 
-## 3. Responsibilities
+## 3. Scope
+- Structured assertions
+- Responsibilities
+- Out of scope
+
+## 4. Responsibilities
 - Declarative mapping
 - Canonicalization
 - Graph construction
 - OPRF
 - Communication with Verity deployments
 
-## 4. Integration Workflow
+## 5. Integration Workflow
 - Existing pipeline
 - SDK mapping
 - Canonicalization
 - OPRF
 - Graph submission
 
-## 5. Supported Inputs
+## 6. Supported Inputs
 - JSON
 - SQL rows
 - DataFrames
 - Structured objects
 
-## 6. Declarative Mapping
+## 7. Declarative Mapping
 - Mapping schema
 - Field selection
 - Custom transforms
 
-## 7. Graph Construction
+## 8. Graph Construction
 - Sources
 - Claims
 - Assertions
 
-## 8. Communication
+## 9. Communication
 - Submitting graph updates
 - Receiving credibility responses
 
-## 9. Versioning
+## 10. Versioning
 
 ## 10. Conformance
