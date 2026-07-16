@@ -356,11 +356,66 @@ Assertions MUST reference canonical sources and canonical claims.
 
 ## 7. Canonical Forms
 
+Prior to generating linkage tokens, canonical sources, claims, and assertions MUST be serialized into deterministic JSON using the JSON Canonicalization Scheme as described in RFC 8785.
+
+The serial representation MUST be consistent across compliant implementations.
+
 ### 7.1 Canonical Source
+
+Canonical source format MUST include:
+
+- Source type
+- Canonical identifier
+
+Example
+
+```json
+{
+  "kind": "web_publisher",
+  "identifier": "docs.anthropic.com"
+}
+```
 
 ### 7.2 Canonical Claim
 
+Canonical claim format MUST include:
+
+- Entity
+- Attribute
+- Value
+
+Example
+
+```json
+{
+  "entity": "messages_api",
+  "attribute": "supports_streaming",
+  "value": true
+}
+```
+
 ### 7.3 Canonical Assertion
+
+Canonical assertion format MUST include:
+
+- Canonical source
+- Canonical claim
+
+Example
+
+```json
+{
+  "source": {
+    "kind": "web_publisher",
+    "identifier": "docs.anthropic.com"
+  },
+  "claim": {
+    "entity": "messages_api",
+    "attribute": "supports_streaming",
+    "value": true
+  }
+}
+```
 
 ## 8. Versioning
 
