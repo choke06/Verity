@@ -48,7 +48,7 @@ For `web_publisher` sources, the SDK MUST:
 - Make the domain name lowercase.
 - Strip a trailing DNS dot from the domain name.
 - Transform internationalized domain names through IDNA.
-- Fail for identifiers containing path, query, or fragment information.
+- Reject identifiers containing path, query, or fragment information.
 
 For `web_document` sources, the SDK MUST:
 
