@@ -4,10 +4,10 @@ This document provides a high-level overview and defines fundamental architectur
 
 To see specification details, visit:
 
-- **protocol/** — the communication contract between clients and Verity deployments. Defines the JSON-RPC protocol and request & response formats.
-- **canonicalization/** — deterministic normalization rules. Specifies how semantically equivalent assertions produce the same graph representation before inference.
-- **sdk/** — client integration guides for constructing graphs, linkage token generation, submitting requests from supported languages.
-- **api/** — reference documentation for the methods exposed by Verity deployments. Includes request schemas, parameters, response structures.
+- **protocol.md** — the communication contract between clients and Verity deployments. Defines the JSON-RPC protocol and request & response formats.
+- **canonicalization.md** — deterministic normalization rules. Specifies how semantically equivalent assertions produce the same graph representation before inference.
+- **sdk.md** — client integration guides for constructing graphs, linkage token generation, submitting requests from supported languages.
+- **mcp.md** — reference documentation for the methods exposed by Verity deployments. Includes request schemas, parameters, response structures.
 
 ## 1. Objectives
 
@@ -121,4 +121,4 @@ Verity deployments may be self-hosted or cloud-hosted. Every deployment implemen
 
 ### 6.2 Trust Boundary
 
-Applications must still perform semantic extraction and canonicaliation before interacting with Verity. Verity operates only on protocol-compliant graph updates and does not interpret the underlying content. This separation establishes the trust boundary between application-specific processing and structural credibility inference.
+Applications must perform semantic extraction and canonicalization before interacting with Verity. Verity operates only on protocol-compliant graph updates and does not interpret the underlying content. This separation establishes the trust boundary between application-specific processing and structural credibility inference.
