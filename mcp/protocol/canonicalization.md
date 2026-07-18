@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-The Verity Canonicalization Specification defines a set of deterministic rules for sources, claims, and assertions before applications construct a graph. It specifies how data is normalized before being serialized into a canonical representation. This enables applications to exchange canonicalized data without any ambiguity.
+The Verity Canonicalization Specification defines a set of deterministic rules for sources, claims, and assertions before applications construct a graph. It specifies how data is normalized and serialized into a canonical representation. This enables applications to exchange canonicalized data without any ambiguity.
 
 ## 2. Design Goals
 
