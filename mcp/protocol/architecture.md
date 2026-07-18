@@ -38,7 +38,7 @@ Applications can install and integrate the Verity SDK directly into their struct
 A Verity deployment persists a credibility graph as new assertions are received. The deployment is responsible for executing structural credibility inference and returning credibility signals to an application. The credibility graph may be private to a single organization or shared across multiple participants (depending on the deployment model used).
 
 <p align="center">
-  <img src="diagrams/architecture.png" alt="Verity system architecture" width="600">
+  <img src="../diagrams/architecture.png" alt="Verity system architecture" width="600">
 </p>
 
 <p align="center">
