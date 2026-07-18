@@ -2,11 +2,11 @@
 
 ## 1. Objectives
 
-This document provides a high-level overview of the Verity architecture and defines major architectural components and their interactions.
+This document provides a high-level overview of the Verity architecture and defines fundamental architectural components and their interactions.
 
 The architecture is designed to compute structural credibility over structured assertions collected from various independent sources.
 
-A main goal for Verity is to enable integration with existing structured data pipelines, regardless of application domain, programming language, or deployment environment used.
+A major goal for Verity is to enable integration with existing structured data pipelines, regardless of application domain, programming language, or deployment environment used.
 
 The architecture intends to satisy the following:
 
@@ -20,18 +20,15 @@ The architecture intends to satisy the following:
   
 ## 2. System Overview
 
-At a high-level, Verity consists of four major architectural components:
+At a high-level, Verity consists of three key architectural components:
 
-- Client application
 - Verity SDK
 - Verity deployment
 - Credibility inference engine
 
-Client applications integrate the Verity SDK into existing structured data pipelines. The SDK is then responsible for performing deterministic canonicalization, constructing a credibility graph, generating privacy-preserving linkage tokens, and submitting graph updates to a Verity deployment.
+Applications can integrate the Verity SDK into their existing structured data pipelines. The SDK performs deterministic canonicalization, constructs a credibility graph, generates privacy-preserving linkage tokens, and submits graph updates to a Verity deployment.
 
-A Verity deployment stores and maintains a persistent credibility graph as new assertions are submitted to the graph. The deployment then executes structural credibility inference and returns credibility signals to client applications. The credibility graph may be private to a single organization or shared across multiple participants depending on the deployment model used.
-
-
+A Verity deployment stores and maintains a persistent credibility graph as new assertions are submitted to the graph. The deployment then executes structural credibility inference and returns credibility signals to an application. The credibility graph may be private to a single organization or shared across multiple participants (depending on the deployment model used).
 
 <p align="center">
   <img src="diagrams/system_architecture.png" alt="Verity system architecture" width="600">
@@ -41,15 +38,19 @@ A Verity deployment stores and maintains a persistent credibility graph as new a
   <em>Figure 1. High-level architecture of the Verity system.</em>
 </p>
 
+## 3. Architectural components
 
+### 3.1 Verity SDK
 
-## 3. Components
-- Host
-- Existing Pipeline
-- Verity SDK
-- Verity Deployment
-- Inference Engine
-- Persistence Layer
+The Verity SDK is a component that exposes the Verity API for applications. The SDK serves as the primary integration point between applications and a Verity deployment.
+
+### 3.2 Verity Deployment
+
+A Verity deployment receives graph updates from the Verity SDK and manages the execution of the credibility inference engine. A deployment serves as the runtime environment for the Verity system.
+
+### 3.3 Credibility Inference Engine
+
+The credibility inference engine in Verity can best be defined as an iterative graph-based propagation ranking method. It computes structural credibility scores by propagating credibility over the credibility graph.
 
 ## 4. End-to-End Workflow
 - Existing pipeline
