@@ -152,7 +152,9 @@ Instead of using a single metric, I'm looking into modeling it as a hybrid funct
 
 Let:
 
-D(A, B)
+$$
+D(A,B)
+$$
 
 be the structural dependency between sources A and B.
 
