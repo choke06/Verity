@@ -176,6 +176,26 @@ Some potential signals could include:
 
 The exact nature of f will have to be determined empirically by future experiments.
 
+## Rarity of Shared Assertions (Experiment 2)
+
+Directional inclusion asymmetry quantifies how much one source's information is completely contained within another's. But, it also treats each shared assertion equally regardless of how common that assertion is throughout the graph.
+
+To see if more structural information can be extracted, I decided to compute a rarity-weighted overlap score between every pair of sources.
+
+What this means is that assertions shared by fewer sources contribute more to the overall score, while assertions that are common contribute less.
+
+### Results
+
+The rankings results differed from those produced by raw overlap counts alone. Source pairs that were relatively close in amount of shared assertions sometimes received noticeably different rarity scores. This ultimately depended on how uncommon those shared assertions were throughout the graph.
+
+That said, rarity-weighted overlap seems to capture a structural property beyond simple agreement.
+
+### Observations
+
+This experiment does not mean rarity-weighted overlap is a measure of source dependency all by itself. Instead, it explains that when estimating the structural relationship among sources, uncommon shared assertions might provide additional evidence beyond raw overlap.
+
+Rarity-weighted overlap seems to be a promising candidate as part of the broader hybrid dependency model introduced earlier. Nonetheless, whether it holds up alongside other strucutral signals or not is an empirical question for further experiments.
+
 ## Open Questions
 
 - How is this best modeled mathematically / what concept fits best?
