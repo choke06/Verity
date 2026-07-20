@@ -194,7 +194,7 @@ That said, rarity-weighted overlap seems to capture a structural property beyond
 
 This experiment does not mean rarity-weighted overlap is a measure of source dependency all by itself. Instead, it explains that when estimating the structural relationship among sources, uncommon shared assertions might provide additional evidence beyond raw overlap.
 
-Rarity-weighted overlap seems to be a promising candidate as part of the broader hybrid dependency model introduced earlier. Nonetheless, whether it holds up alongside other strucutral signals or not is an empirical question for further experiments.
+Rarity-weighted overlap seems to be a promising candidate as part of the broader hybrid dependency model introduced earlier. Nonetheless, whether it holds up alongside other structural signals or not is an empirical question for further experiments.
 
 ## Open Questions
 
