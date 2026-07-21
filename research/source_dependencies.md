@@ -198,7 +198,7 @@ Rarity-weighted overlap seems to be a promising candidate as part of the broader
 
 ## Manual Implementation Validation
 
-I manually reproduced the depednency score for one source pair, Best Buy and Target, in order to determine if the implementation matched the mathematical definition.
+I manually reproduced the dependency score for one source pair, Best Buy and Target, in order to determine if the implementation matched the mathematical definition.
 
 The implementation reported:
 
