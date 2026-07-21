@@ -230,7 +230,7 @@ $$
 1 - 0.265870 = 0.734130
 $$
 
-The manually computed values matched the implementation output to precisely. The inspection tool also independently counted the same 198 matching assertions and 34 conflicting assertions as the production implementation.
+The manually computed values matched the implementation output precisely. The inspection tool also independently counted the same 198 matching assertions and 34 conflicting assertions as the production implementation.
 
 ## Community Overlap (Experiment 3)
 
