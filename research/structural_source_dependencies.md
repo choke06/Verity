@@ -162,7 +162,7 @@ That said, rarity-weighted overlap seems to capture a structural property beyond
 
 This experiment does not mean rarity-weighted overlap is a measure of source dependency all by itself. Instead, it explains that when estimating the structural relationship among sources, uncommon shared assertions might provide additional evidence beyond raw overlap.
 
-Rarity-weighted overlap seems to be a promising candidate as part of the broader hybrid dependency model introduced earlier. Nonetheless, whether it holds up alongside other structural signals or not is an empirical question for further experiments.
+Rarity-weighted overlap seems to be a promising structural feature for source dependency estimation research. Nonetheless, whether it contains useful information alongside other structural features or not is an empirical question for further experiments.
 
 ## Manual Implementation Validation
 
@@ -224,7 +224,7 @@ This experiment showed that community detection does not contribute any meaningf
 
 ## Conclusion
 
-Upon experiments, we have demonstrated that directional asymmetry inclusion can derive meaningful structural information from the source-claim graph. Likewise, rarity-weighted overlap managed to capture a distinct structural property beyond simple agreement. These experiments have indicated that useful evidence regarding relationships between sources can be found from the graph topology.
+Through these experiments, we have demonstrated that directional asymmetry inclusion can derive meaningful structural information from the source-claim graph. Likewise, rarity-weighted overlap managed to capture a distinct structural property beyond simple agreement. These experiments have indicated that useful evidence regarding relationships between sources can be found from the graph topology.
 
 However, that being said, the experiments also revealed several fundamental ambiguities. Particularly the fact that graph structure alone cannot distinguish copying from a hidden source upstream, nor can it fully identify dependency relationships in all cases.
 
